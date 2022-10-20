@@ -16,13 +16,8 @@ RUN apt-get update && apt-get install -y \
     jq \
     tmux
 
-RUN pip install -U --no-cache-dir\
-    pip \
-    fastai \
-    diffusers \
-    transformers \
-    huggingface-hub \
-    notebook
+RUN pip install -U pip
+RUN pip install -r requirements.txt
 
 RUN jupyter notebook --generate-config
 RUN jupyter nbextension enable --py widgetsnbextension
