@@ -1,8 +1,13 @@
 FROM pytorch/pytorch:1.12.1-cuda11.3-cudnn8-runtime
 LABEL maintainer "tim.lee"
 
-
 USER root
+
+# create another user called ML within the container, make it a sudoer + docker
+RUN useradd ml
+RUN usermod -aG sudo ml
+
+USER ml
 
 WORKDIR /home/ml
 ENV HOME /home/ml
