@@ -26,7 +26,7 @@ COPY ./docker/gpu_check_pytorch.py .
 COPY ./docker/requirements.txt .
 COPY ./docker/jupyter_notebook_config.py .
 
-ENV VIRTUAL_ENV=/opt/fastai_venv
+ENV VIRTUAL_ENV=/home/ml/fastai_venv
 RUN python3 -m venv $VIRTUAL_ENV
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
