@@ -16,7 +16,7 @@ COPY ./docker/gpu_check_pytorch.py .
 COPY ./docker/requirements.txt .
 COPY ./docker/jupyter_notebook_config.py .
 
-RUN apt-get update && apt-get install -y \
+RUN sudo apt-get update && sudo apt-get install -y \
     git \
     wget \
     htop \
