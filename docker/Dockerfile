@@ -21,9 +21,9 @@ COPY --chown=ml:ml ./docker/gpu_check_pytorch.py .
 COPY --chown=ml:ml ./docker/requirements.txt .
 COPY --chown=ml:ml ./docker/jupyter_notebook_config.py .
 
-WORKDIR /home/ml
 USER ml
-RUN chown -R ml:ml /home/ml
+
+WORKDIR /home/ml
 ENV HOME /home/ml
 
 
