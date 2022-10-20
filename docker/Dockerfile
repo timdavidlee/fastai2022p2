@@ -11,6 +11,7 @@ RUN apt-get update && apt-get install -y \
     vim \
     curl \
     jq \
+    bash-completion \
     tmux && apt-get clean all
 
 # create another user called ML within the container, make it a sudoer + docker
