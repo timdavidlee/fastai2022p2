@@ -3,7 +3,7 @@ LABEL maintainer "tim.lee"
 
 USER root
 
-RUN sudo apt-get update && sudo apt-get install -y \
+RUN apt-get update && apt-get install -y \
     git \
     wget \
     htop \
