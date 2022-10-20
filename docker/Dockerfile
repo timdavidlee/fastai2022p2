@@ -34,6 +34,14 @@ ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 RUN pip install -U pip
 RUN pip install -r requirements.txt
 
+# up version pytorch
+RUN pip install \
+    torch==1.12.0+cu116 \
+    torchvision==0.13.0+cu116 \
+    torchaudio==0.12.0 \
+    --extra-index-url https://download.pytorch.org/whl/cu116
+
+
 RUN jupyter nbextension enable --py widgetsnbextension
 
 CMD jupyter lab --config jupyter_notebook_config.py
