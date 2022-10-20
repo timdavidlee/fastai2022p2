@@ -1,0 +1,1 @@
+docker build --tag=fastai-gpu-jlab:local -f ./docker/Dockerfile .
