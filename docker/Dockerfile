@@ -21,9 +21,8 @@ RUN apt-get update && apt-get install -y \
 RUN useradd ml
 RUN usermod -aG sudo ml
 
-USER ml
-
 WORKDIR /home/ml
+USER ml
 ENV HOME /home/ml
 
 
