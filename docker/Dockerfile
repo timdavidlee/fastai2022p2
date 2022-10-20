@@ -23,7 +23,7 @@ COPY --chown=ml:ml ./docker/jupyter_notebook_config.py .
 
 WORKDIR /home/ml
 USER ml
-RUN sudo chown -R ml:ml /home/ml
+RUN chown -R ml:ml /home/ml
 ENV HOME /home/ml
 
 
