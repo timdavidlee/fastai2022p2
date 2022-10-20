@@ -26,12 +26,12 @@ COPY ./docker/gpu_check_pytorch.py .
 COPY ./docker/requirements.txt .
 COPY ./docker/jupyter_notebook_config.py .
 
+RUN export PATH="$HOME/.local/bin:$PATH"
+
 RUN pip install -U pip
 RUN pip install -r requirements.txt
 
 RUN jupyter notebook --generate-config
 RUN jupyter nbextension enable --py widgetsnbextension
-
-RUN export PATH="$HOME/.local/bin:$PATH"
 
 CMD jupyter lab --config jupyter_notebook_config.py
