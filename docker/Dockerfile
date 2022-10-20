@@ -1,10 +1,14 @@
 FROM pytorch/pytorch:1.12.1-cuda11.3-cudnn8-runtime
 LABEL maintainer "tim.lee"
 
+
 USER root
 
 WORKDIR /home/ml
 ENV HOME /home/ml
+
+COPY ./docker/gpu_check_pytorch.py .
+COPY ./docker/requirements.txt .
 
 RUN apt-get update && apt-get install -y \
     git \
