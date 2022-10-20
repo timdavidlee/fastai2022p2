@@ -1,6 +1,8 @@
 FROM pytorch/pytorch:1.12.1-cuda11.3-cudnn8-runtime
 LABEL maintainer "tim.lee"
 
+USER root
+
 WORKDIR /home/ml
 ENV HOME /home/ml
 
@@ -13,6 +15,8 @@ RUN apt-get update && apt-get install -y \
     curl \
     jq \
     tmux
+
+USER ml
 
 RUN pip install -U \
     fastai \
