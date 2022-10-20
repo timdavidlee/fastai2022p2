@@ -18,7 +18,7 @@ RUN apt-get update && apt-get install -y \
 USER ml
 ENV HOME /home/ml
 
-RUN pip install -U \
+RUN pip install -U --no-cache-dir\
     pip \
     fastai \
     diffusers \
@@ -26,4 +26,7 @@ RUN pip install -U \
     huggingface-hub \
     notebook
 
-CMD jupyter notebook --ip=0.0.0.0 --no-browser --notebook-dir=/home/ml/ --Server.app.password='sha1:bfa0e68cf625678f6438e11d35577c23277d3dd8'
+RUN jupyter notebook --generate-config
+RUN jupyter nbextension enable --py widgetnbextension
+
+CMD jupyter lab --ip=0.0.0.0 --no-browser --notebook-dir=/home/ml/ --Server.app.password='argon2:$argon2id$v=19$m=10240,t=10,p=8$Tb7raEKjGNxkyoFI558tgg$slnFXEftATF8bwdt8mvXWXMg7BQn5S3VAWXmxQs4KMM'
