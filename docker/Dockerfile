@@ -32,4 +32,6 @@ RUN pip install -r requirements.txt
 RUN jupyter notebook --generate-config
 RUN jupyter nbextension enable --py widgetsnbextension
 
+RUN export PATH="$HOME/.local/bin:$PATH"
+
 CMD jupyter lab --config jupyter_notebook_config.py
