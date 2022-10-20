@@ -16,12 +16,13 @@ RUN apt-get update && apt-get install -y \
 # create another user called ML within the container, make it a sudoer + docker
 RUN useradd ml
 RUN usermod -aG sudo ml
+RUN chown ml:ml /home
+
+USER ml
 
 COPY --chown=ml:ml ./docker/gpu_check_pytorch.py .
 COPY --chown=ml:ml ./docker/requirements.txt .
 COPY --chown=ml:ml ./docker/jupyter_notebook_config.py .
-
-USER ml
 
 WORKDIR /home/ml
 ENV HOME /home/ml

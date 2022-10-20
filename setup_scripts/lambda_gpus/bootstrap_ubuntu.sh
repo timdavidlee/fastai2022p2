@@ -35,7 +35,7 @@ ENDSSH
 
 echo -e "${yellow}[${TARGET_HOST}]: updating the ubuntu system"
 ssh -T $USER@$TARGET_HOST <<'ENDSSH'
-sudo usermod -aG docker $USER
+sudo apt-get update
 ENDSSH
 
 echo -e "${yellow}[${TARGET_HOST}]: installing some convenience linux libs"
