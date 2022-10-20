@@ -3,6 +3,10 @@ LABEL maintainer "tim.lee"
 
 USER root
 
+COPY ./docker/gpu_check_pytorch.py .
+COPY ./docker/requirements.txt .
+COPY ./docker/jupyter_notebook_config.py .
+
 RUN apt-get update && apt-get install -y \
     git \
     wget \
@@ -11,7 +15,7 @@ RUN apt-get update && apt-get install -y \
     vim \
     curl \
     jq \
-    tmux && yum clean all
+    tmux && apt-get clean all
 
 # create another user called ML within the container, make it a sudoer + docker
 RUN useradd ml
@@ -22,9 +26,6 @@ USER ml
 WORKDIR /home/ml
 ENV HOME /home/ml
 
-COPY ./docker/gpu_check_pytorch.py .
-COPY ./docker/requirements.txt .
-COPY ./docker/jupyter_notebook_config.py .
 
 RUN pip install -U pip
 RUN pip install -r requirements.txt
