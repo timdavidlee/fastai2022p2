@@ -1,0 +1,5 @@
+fastai==2.7.9
+diffusers==0.6.0
+transformers==4.23.1
+huggingface-hub==0.10.1
+notebook==6.5.1
