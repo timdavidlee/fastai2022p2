@@ -9,6 +9,7 @@ ENV HOME /home/ml
 
 COPY ./docker/gpu_check_pytorch.py .
 COPY ./docker/requirements.txt .
+COPY ./docker/jupyter_notebook_config.py .
 
 RUN apt-get update && apt-get install -y \
     git \
@@ -26,4 +27,4 @@ RUN pip install -r requirements.txt
 RUN jupyter notebook --generate-config
 RUN jupyter nbextension enable --py widgetsnbextension
 
-CMD jupyter lab --ip=0.0.0.0 --no-browser --notebook-dir=/home/ml/ --Server.app.password='argon2:$argon2id$v=19$m=10240,t=10,p=8$Tb7raEKjGNxkyoFI558tgg$slnFXEftATF8bwdt8mvXWXMg7BQn5S3VAWXmxQs4KMM'
+CMD jupyter lab --config jupyter_notebook_config.py
