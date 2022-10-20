@@ -19,6 +19,7 @@ RUN pip install -U \
     diffusers \
     transformers \
     huggingface-hub \
+    jupyter-lab \
     notebook
 
 CMD jupyter lab --ip=0.0.0.0 --no-browser --notebook-dir=/home/ml/
