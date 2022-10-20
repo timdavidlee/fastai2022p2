@@ -1,4 +1,4 @@
-FROM pytorch/pytorch:latest
+FROM pytorch/pytorch:1.12.1-cuda11.3-cudnn8-runtime
 LABEL maintainer "tim.lee"
 
 USER root

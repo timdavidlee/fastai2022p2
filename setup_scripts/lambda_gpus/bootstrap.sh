@@ -39,3 +39,5 @@ sudo apt-get install -y \
 
 echo -e "${yellow}: verifying a gpu is available"
 nvidia-smi
+
+echo -e "${yellow}: creating lessons directory and cloning the lessons repos"
