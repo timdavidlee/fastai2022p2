@@ -4,7 +4,6 @@ LABEL maintainer "tim.lee"
 USER root
 
 WORKDIR /home/ml
-ENV HOME /home/ml
 
 RUN apt-get update && apt-get install -y \
     git \
@@ -17,8 +16,10 @@ RUN apt-get update && apt-get install -y \
     tmux
 
 USER ml
+ENV HOME /home/ml
 
 RUN pip install -U \
+    pip \
     fastai \
     diffusers \
     transformers \
