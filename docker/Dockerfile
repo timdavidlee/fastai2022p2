@@ -21,4 +21,4 @@ RUN pip install -U \
     huggingface-hub \
     notebook
 
-CMD jupyter lab --ip=0.0.0.0 --no-browser --notebook-dir=/home/ml/
+CMD jupyter notebook --ip=0.0.0.0 --no-browser --notebook-dir=/home/ml/ --Server.app.password='sha1:bfa0e68cf625678f6438e11d35577c23277d3dd8'
