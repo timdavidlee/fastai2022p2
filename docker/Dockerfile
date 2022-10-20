@@ -14,9 +14,8 @@ RUN apt-get update && apt-get install -y \
     tmux && apt-get clean all
 
 # create another user called ML within the container, make it a sudoer + docker
-RUN useradd ml
+RUN useradd -m -d /home/ml ml
 RUN usermod -aG sudo ml
-RUN chown -R ml:ml /home/ml
 
 USER ml
 
