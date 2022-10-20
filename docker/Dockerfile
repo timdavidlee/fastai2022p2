@@ -19,13 +19,12 @@ RUN usermod -aG sudo ml
 
 USER ml
 
-COPY --chown=ml:ml ./docker/gpu_check_pytorch.py .
-COPY --chown=ml:ml ./docker/requirements.txt .
-COPY --chown=ml:ml ./docker/jupyter_notebook_config.py .
-
 WORKDIR /home/ml
 ENV HOME /home/ml
 
+COPY ./docker/gpu_check_pytorch.py .
+COPY ./docker/requirements.txt .
+COPY ./docker/jupyter_notebook_config.py .
 
 RUN pip install -U pip
 RUN pip install -r requirements.txt
