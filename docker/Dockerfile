@@ -14,6 +14,12 @@ RUN apt-get update && apt-get install -y \
     bash-completion \
     tmux && apt-get clean all
 
+# install python
+RUN apt-get install -y \
+    software-properties-common \
+    && sudo add-apt-repository ppa:deadsnakes/ppa \
+    && sudo apt install python3.10
+
 # create another user called ML within the container, make it a sudoer + docker
 RUN useradd -m -d /home/ml ml
 RUN usermod -aG sudo ml
