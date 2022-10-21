@@ -16,15 +16,15 @@ RUN apt-get update && apt-get install -y \
     bash-completion \
     tmux && apt-get clean all
 
-# reinstall nvidia drivers
-RUN apt install -y nvidia-driver-510 nvidia-dkms-510
 
 # install python
 RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get install -y \
     software-properties-common \
     && add-apt-repository ppa:deadsnakes/ppa \
     && apt-get update -y \
-    && apt install -y python3.9 python3.9-venv
+    && apt install -y python3.9 python3.9-venv \
+    && RUN apt install -y nvidia-driver-510 nvidia-dkms-510   # reinstall nvidia drivers
+
 
 # symlink to python3
 RUN ln -sf /usr/bin/python3.9 /usr/bin/python3
