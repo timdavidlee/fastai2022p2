@@ -5,6 +5,7 @@ USER root
 
 RUN apt-get update && apt-get install -y \
     apt-utils \
+    sudo \
     git \
     wget \
     htop \
@@ -14,6 +15,10 @@ RUN apt-get update && apt-get install -y \
     jq \
     bash-completion \
     tmux && apt-get clean all
+
+# reinstall nvidia drivers
+RUN apt upgrade \
+    && apt install nvidia-driver-510 nvidia-dkms-510
 
 # install python
 RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get install -y \
