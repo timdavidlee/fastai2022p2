@@ -15,7 +15,7 @@ RUN apt-get update && apt-get install -y \
     tmux && apt-get clean all
 
 # install python
-RUN RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get install -y \
+RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get install -y \
     software-properties-common \
     && sudo apt install python3.10
 
