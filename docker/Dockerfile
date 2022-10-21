@@ -17,7 +17,7 @@ RUN apt-get update && apt-get install -y \
 # install python
 RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get install -y \
     software-properties-common \
-    && sudo apt install python3.10
+    && apt install python3.10
 
 # symlink to python3
 RUN ln -sf /usr/bin/python3.10 /usr/bin/python3
