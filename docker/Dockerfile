@@ -20,10 +20,10 @@ RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get install -y \
     software-properties-common \
     && add-apt-repository ppa:deadsnakes/ppa \
     && apt-get update -y \
-    && apt install -y python3.10 python3.10-venv
+    && apt install -y python3.9 python3.9-venv
 
 # symlink to python3
-RUN ln -sf /usr/bin/python3.10 /usr/bin/python3
+RUN ln -sf /usr/bin/python3.9 /usr/bin/python3
 
 # create another user called ML within the container, make it a sudoer + docker
 RUN useradd -m -d /home/ml ml
