@@ -18,12 +18,15 @@ RUN apt-get update && apt-get install -y \
 
 
 # install python
-RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get install -y \
+RUN export DEBIAN_FRONTEND=noninteractive
+RUN export TZ=Etc/UTC
+RUN apt-get install -y \
     software-properties-common \
     && add-apt-repository ppa:deadsnakes/ppa \
     && apt-get update -y \
-    && apt install -y python3.9 python3.9-venv \
-    && apt install -y nvidia-driver-510 nvidia-dkms-510   # reinstall nvidia drivers
+    && apt install -y python3.9 python3.9-venv
+
+RUN  apt install -y nvidia-driver-510 nvidia-dkms-510   # reinstall nvidia drivers
 
 
 # symlink to python3
