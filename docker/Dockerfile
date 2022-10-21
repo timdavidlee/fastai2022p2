@@ -18,8 +18,8 @@ RUN apt-get update && apt-get install -y \
 
 
 # install python
-RUN export DEBIAN_FRONTEND=noninteractive
-RUN export TZ=Etc/UTC
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=Etc/UTC
 RUN apt-get install -y \
     software-properties-common \
     && add-apt-repository ppa:deadsnakes/ppa \
