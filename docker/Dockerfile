@@ -20,6 +20,9 @@ RUN apt-get install -y \
     && sudo add-apt-repository ppa:deadsnakes/ppa \
     && sudo apt install python3.10
 
+# symlink to python3
+RUN ln -sf /usr/bin/python3.10 /usr/bin/python3
+
 # create another user called ML within the container, make it a sudoer + docker
 RUN useradd -m -d /home/ml ml
 RUN usermod -aG sudo ml
