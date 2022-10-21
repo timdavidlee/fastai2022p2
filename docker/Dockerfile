@@ -15,9 +15,8 @@ RUN apt-get update && apt-get install -y \
     tmux && apt-get clean all
 
 # install python
-RUN apt-get install -y \
+RUN RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get install -y \
     software-properties-common \
-    && sudo add-apt-repository ppa:deadsnakes/ppa \
     && sudo apt install python3.10
 
 # symlink to python3
