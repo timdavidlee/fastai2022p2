@@ -18,8 +18,8 @@ RUN apt-get update && apt-get install -y \
 RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get install -y \
     software-properties-common \
     && add-apt-repository ppa:deadsnakes/ppa \
-    && apt-get update \
-    && apt install python3.10
+    && apt-get update -y \
+    && apt install -y python3.10
 
 # symlink to python3
 RUN ln -sf /usr/bin/python3.10 /usr/bin/python3
