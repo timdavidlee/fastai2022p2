@@ -45,4 +45,3 @@ mkdir -p ~/ml_lessons
 cd ~/ml_lessons
 git clone https://github.com/fastai/course22p2
 git clone https://github.com/fastai/diffusion-nbs
-git clone https://github.com/timdavidlee/fastai2022p2.git
