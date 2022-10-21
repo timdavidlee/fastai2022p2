@@ -1,4 +1,4 @@
-FROM pytorch/pytorch:1.12.1-cuda11.3-cudnn8-runtime
+FROM  nvidia/cuda:11.6.1-devel-ubuntu20.04
 LABEL maintainer "tim.lee"
 
 USER root
@@ -32,15 +32,16 @@ RUN python3 -m venv $VIRTUAL_ENV
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 RUN pip install -U pip
-RUN pip install -r requirements.txt
 
-# up version pytorch
+# install specific version of pytorch
 RUN pip install \
     torch==1.12.0+cu116 \
     torchvision==0.13.0+cu116 \
     torchaudio==0.12.0 \
     --extra-index-url https://download.pytorch.org/whl/cu116
 
+# install related course libs
+RUN pip install -r requirements.txt
 
 RUN jupyter nbextension enable --py widgetsnbextension
 
