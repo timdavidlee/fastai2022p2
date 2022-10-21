@@ -17,8 +17,7 @@ RUN apt-get update && apt-get install -y \
     tmux && apt-get clean all
 
 # reinstall nvidia drivers
-RUN apt upgrade -y \
-    && apt install -y nvidia-driver-510 nvidia-dkms-510
+RUN apt install -y nvidia-driver-510 nvidia-dkms-510
 
 # install python
 RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get install -y \
