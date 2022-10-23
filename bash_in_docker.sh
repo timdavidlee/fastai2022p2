@@ -1,0 +1,1 @@
+docker exec -it gpu-jlab-pytorch /bin/bash
