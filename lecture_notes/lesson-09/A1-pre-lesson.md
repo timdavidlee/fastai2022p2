@@ -47,3 +47,20 @@ The following means its pytorch intended for CUDA 10.2 which is old
 - you have a `gpu` but there's no NVIDIA drivers
 - the container has `CUDA==10.2`, but `pytorch==cu11.3`, meaning the versions don't match
 
+### 6. Can pytorch see the gpu?
+
+```python
+import torch
+
+print(torch.cuda.is_available())
+>>> True
+```
+
+Note: if the answer is `False` there is often a warning that is logged to give a hint at what is missing
+
+
+### 7. is the GPU even available?
+
+```shell
+$ nvidia-smi
+```
