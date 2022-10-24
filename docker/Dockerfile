@@ -52,14 +52,16 @@ ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 # upgrading the pytorch version to pytorch:1.12.0-11.3, defaults to 1.11.1:10.2 for some reason
 RUN pip install -U pip
+
+# install related course libs
+RUN pip install -r --no-cache-dir requirements.txt
+
+# install torch afterwards to up-version
 RUN pip install --no-cache-dir \
     torch==1.12.0+cu113 \
     torchvision==0.13.0+cu113 \
     torchaudio==0.12.0 \
     --extra-index-url https://download.pytorch.org/whl/cu113
-
-# install related course libs
-RUN pip install -r --no-cache-dir requirements.txt
 
 RUN jupyter nbextension enable --py widgetsnbextension
 

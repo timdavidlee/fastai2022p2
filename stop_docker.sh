@@ -1,0 +1,1 @@
+docker stop "$(docker ps | grep fastai-gpu-jlab:local | awk '{print $1}')"

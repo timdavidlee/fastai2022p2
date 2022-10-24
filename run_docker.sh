@@ -8,6 +8,7 @@ docker run -it --rm -d --gpus all \
     -v /home/ubuntu/ml_lessons:/home/ml/ml_lessons \
     -p 8888:8888 \
     -p 8889:8889 \
+    -e TRANSFORMERS_CACHE=/home/ml/data/.cache/huggingface/
     fastai-gpu-jlab:local
 
     # -v /home/ubuntu/.huggingface:/home/ml/.huggingface \
