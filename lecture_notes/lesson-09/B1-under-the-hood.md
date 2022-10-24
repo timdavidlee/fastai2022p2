@@ -5,3 +5,5 @@
 ## Concept: Stable Diffusion to generate handwritten digits
 
 Get a web-sourced image of handwritten digit. Spit out probability that its a hand written digit.
+
+![](https://ibb.co/JHc9Gjx)
