@@ -21,13 +21,20 @@ RUN apt-get update && apt-get install -y \
 ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ=Etc/UTC
 RUN apt-get install -y \
-    software-properties-common \
-    && add-apt-repository ppa:deadsnakes/ppa \
-    && apt-get update -y \
-    && apt install -y python3.9 python3.9-venv
-
-# symlink to python3
-RUN ln -sf /usr/bin/python3.9 /usr/bin/python3
+    build-essential \
+    libssl-dev \
+    zlib1g-dev \
+    libbz2-dev \
+    libreadline-dev \
+    libsqlite3-dev \
+    llvm \
+    libncursesw5-dev \
+    xz-utils \
+    tk-dev \
+    libxml2-dev \
+    libxmlsec1-dev \
+    libffi-dev \
+    liblzma-dev && apt-get clean all
 
 # create another user called ML within the container, make it a sudoer + docker
 RUN useradd -m -d /home/ml ml
@@ -37,6 +44,16 @@ USER ml
 
 WORKDIR /home/ml
 ENV HOME /home/ml
+ENV PYENV_ROOT $HOME/.pyenv
+ENV PATH $PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH
+
+# get pyenv
+RUN curl https://pyenv.run | bash
+
+# the version of python should always be compared to pytorch to ensure compatibility
+RUN pyenv install 3.9.15
+RUN pyenv global 3.9.15
+RUN pyenv rehash
 
 # this is where hugging face will save temp files. we wiant in the mapped directory
 # so we don't need to restart all the time, this should be made globally outside of the docker
@@ -46,15 +63,11 @@ COPY ./docker/gpu_check_pytorch.py .
 COPY ./docker/requirements.txt .
 COPY ./docker/jupyter_notebook_config.py .
 
-ENV VIRTUAL_ENV=/home/ml/fastai_venv
-RUN python3 -m venv $VIRTUAL_ENV
-ENV PATH="$VIRTUAL_ENV/bin:$PATH"
-
 # upgrading the pytorch version to pytorch:1.12.0-11.3, defaults to 1.11.1:10.2 for some reason
 RUN pip install -U pip
 
 # install related course libs
-RUN pip install -r --no-cache-dir requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 # install torch afterwards to up-version
 RUN pip install --no-cache-dir \
