@@ -15,7 +15,7 @@ else
 fi
 
 echo -e "${yellow}: install docker"
-sudo snap install docker
+sudo apt update -y && sudo apt-get install -y docker.io
 
 echo -e "${yellow}: adding a docker group if it doesn't exist"
 sudo getent group docker || sudo groupadd docker
@@ -23,8 +23,8 @@ sudo getent group docker || sudo groupadd docker
 echo -e "${yellow}: adding the current user: [${USER}] to the docker group"
 sudo usermod -aG docker $USER
 
-echo -e "${yellow}: adjusting access to the docker socket information"
-sudo chmod 666 /var/run/docker.sock
+# echo -e "${yellow}: adjusting access to the docker socket information"
+# sudo chmod 666 /var/run/docker.sock
 
 echo -e "${yellow}: updating the ubuntu system"
 sudo apt-get update
@@ -48,7 +48,7 @@ echo -e "${yellow}: will install cuda-11.6"
 echo -e "${yellow}: 1. update linux"
 sudo apt-get install linux-headers-$(uname -r)
 distribution=$(. /etc/os-release;echo $ID$VERSION_ID | sed -e 's/\.//g')
-wget https://developer.download.nvidia.com/compute/cuda/repos/$distribution/x86_64/cuda-keyring_1.0-1_all.deb
+wget https://developer.download.nvidia.com/compute/cuda/repos/$distribution/x86_64/cuda-keyring_1.0-1_all.deb -O cuda-keyring_1.0-1_all.deb
 sudo dpkg -i cuda-keyring_1.0-1_all.deb
 sudo apt-get update
 sudo apt-get -y install cuda-drivers
@@ -71,6 +71,7 @@ distribution=$(. /etc/os-release;echo $ID$VERSION_ID) \
 
 # update and install
 sudo apt-get update
+sudo apt-get install -y nvidia-container-toolkit
 sudo apt-get install -y nvidia-docker2
 
 echo -e "${yellow}: restarting docker"

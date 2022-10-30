@@ -6,9 +6,10 @@ docker run -it --rm -d --gpus all \
     -v /home/ubuntu/data:/home/ml/data \
     -v /home/ubuntu/fastai2022p2:/home/ml/fastai2022p2 \
     -v /home/ubuntu/ml_lessons:/home/ml/ml_lessons \
+    -v /home/ubuntu/.huggingface:/home/ml/.huggingface \
     -p 8888:8888 \
     -p 8889:8889 \
-    -e TRANSFORMERS_CACHE=/home/ml/data/.cache/huggingface/
+    -e TRANSFORMERS_CACHE=/home/ml/data/.cache/huggingface/ \
     fastai-gpu-jlab:local
 
-    # -v /home/ubuntu/.huggingface:/home/ml/.huggingface \
+docker ps | grep gpu-jlab-pytorch
