@@ -79,3 +79,8 @@ With walking through the talk step by step, the big idea is:
 ### Comment on Appendices:
 
 - often contain experiments or lessons learned while developing the process
+
+
+### HW comments
+
+- using hugging face's pipeline and the provided code, try and create the above paper's results!
