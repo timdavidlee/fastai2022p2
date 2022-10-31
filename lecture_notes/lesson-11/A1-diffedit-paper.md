@@ -68,3 +68,14 @@ What does the capital E mean?
 ### Looking at the "picture" algorithm diagram
 
 <img src="https://i.ibb.co/brD5y3D/Screenshot-2022-10-30-at-5-28-18-PM.jpg" alt="Screenshot-2022-10-30-at-5-28-18-PM" border="0">
+
+With walking through the talk step by step, the big idea is: 
+
+1. run inference on the original image for the truth `horse` vs. `zebra` and then do a diff.
+2. for the zebra inference, it will highlight the pixels relating to the animal and then leave the background alone
+3. after inferring on both, doing the diff, will show that the background is the same on both images, this will be our MASK
+4. then when going through the normal diffusion process, at every step, will replace the MASKED area (background) with the original, to ensure that the pixels remain the same
+
+### Comment on Appendices:
+
+- often contain experiments or lessons learned while developing the process
