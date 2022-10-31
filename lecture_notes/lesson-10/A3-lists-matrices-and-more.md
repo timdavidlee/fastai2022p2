@@ -21,18 +21,13 @@ This course will focus on a smaller version of the technology, and after that po
 
 ```python
 from pathlib import Path  # helps navigate files 
-import (
-    itertools, # usefull tools for working with collections + iterators
-    urllib,    # for calling websites, or downloading files
-    pickle,    # for saving files, different format
-    gzip,      # for saving files
-    math,
-    time,
-    os,        # doing file system things, copy, move, mkdir
-    shutil,    # doing file system things, copy, move, mkdir
-    matplotlib as mpl,         # plotting
-    matplotlib.pyplot as plt   # plotting
-)
+import itertools          # usefull tools for working with collections + iterators
+import urllib             # for calling websites, or downloading files
+import pickle, gzip       # for opening + saving files, different format
+import math, time
+import os, shutil         # doing file system things, copy, move, mkdir
+# plotting libraries
+import matplotlib as mpl, matplotlib.pyplot as plt
 ```
 
 ## Get Data - Handwritten images
@@ -55,7 +50,7 @@ path_gz = path_data/'mnist.pkl.gz'
 
 # get the file, only if it hasn't be downloaded
 if not path_gz.exists():
-    urllib.urlretrieve(MNIST_URL, path_gz)
+    urllib.request.urlretrieve(MNIST_URL, path_gz)
 
 with gzip.open(path_gz, 'rb') as f:
     # the gzip contains 4 arrays + some metadata
@@ -148,12 +143,10 @@ list(itertools.islice(sample_vals, 5))
 # [6, 7, 8, 9, 10]
 ```
 
+So what's happening with the image data, is that it will call the full list of `768` items, and will return a row of `28` each time its called. These will stack for 28 rows which will result in `28 x 28`
+
 ```python
 image_iterator = iter(first_image_as_list)
-img_iterator = list(iter(lambda: list(islice(it, 28)), []))
-plt.imshow(img);
+img_as_list_of_lists = list(iter(lambda: list(itertools.islice(image_iterator, 28)), []))
+plt.imshow(img_as_list_of_lists);
 ```
-
-## Matrix and Tensor Work
-
-
