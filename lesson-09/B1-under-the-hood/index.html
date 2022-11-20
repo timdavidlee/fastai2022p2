@@ -1,0 +1,996 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://timdavidlee.github.io/fastai2022p2/lesson-09/B1-under-the-hood/">
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-8.5.10">
+    
+    
+      
+        <title>Under the Hood - Lecture Notes for Intermediate deep learning</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.472b142f.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.08040f6c.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#546d78">
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#what-is-stable-diffusion" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Lecture Notes for Intermediate deep learning" class="md-header__button md-logo" aria-label="Lecture Notes for Intermediate deep learning" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Lecture Notes for Intermediate deep learning
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Under the Hood
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Lecture Notes for Intermediate deep learning" class="md-nav__button md-logo" aria-label="Lecture Notes for Intermediate deep learning" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Lecture Notes for Intermediate deep learning
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          Lesson 9
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Lesson 9" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Lesson 9
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../A1-pre-lesson/" class="md-nav__link">
+        Pre Lesson
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../A2-stable-diffusion-fun/" class="md-nav__link">
+        Stable Diffusion
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../A3-fine-tuning/" class="md-nav__link">
+        Fine Tuning Stable Diffusion
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Under the Hood
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Under the Hood
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#concept-stable-diffusion-to-generate-handwritten-digits" class="md-nav__link">
+    Concept: Stable Diffusion to generate handwritten digits
+  </a>
+  
+    <nav class="md-nav" aria-label="Concept: Stable Diffusion to generate handwritten digits">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-happens-if-the-image-is-tweaked" class="md-nav__link">
+    What happens if the image is "tweaked"?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#if-we-had-the-gradient-what-would-we-do-with-it" class="md-nav__link">
+    If we had the gradient, what would we do with it?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-calculate-the-gradient" class="md-nav__link">
+    How to calculate the gradient?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#high-level-problem-definition" class="md-nav__link">
+    High-level problem definition
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a-forward-cycle" class="md-nav__link">
+    A forward-cycle
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#so-how-to-add-noise" class="md-nav__link">
+    So... how to add noise?
+  </a>
+  
+    <nav class="md-nav" aria-label="So... how to add noise?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#introducing-autoencoders" class="md-nav__link">
+    Introducing autoencoders
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#assembling-the-compressor-expander-with-the-nn" class="md-nav__link">
+    Assembling the compressor + expander with the NN
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-about-captions" class="md-nav__link">
+    What about captions?
+  </a>
+  
+    <nav class="md-nav" aria-label="What about captions?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#captions-to-vectors-an-example" class="md-nav__link">
+    Captions to vectors: an example
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          Lesson 10
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Lesson 10" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Lesson 10
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lesson-10/A1-Intro/" class="md-nav__link">
+        Intro
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lesson-10/A2-pipeline-under-the-hood/" class="md-nav__link">
+        Under the hood of Pipeline
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lesson-10/A3-lists-matrices-and-more/" class="md-nav__link">
+        Lists, Matrices and More
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lesson-10/A4-matrices/" class="md-nav__link">
+        More Matrix Operations
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          Lesson 11
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Lesson 11" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Lesson 11
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lesson-11/A1-diffedit-paper/" class="md-nav__link">
+        DiffEdit Paper
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lesson-11/A2-matrix_operations/" class="md-nav__link">
+        Matrix Operations
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lesson-11/A3-elementwise-ops/" class="md-nav__link">
+        Elementwise Operations
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lesson-11/A4-broadcasting/" class="md-nav__link">
+        Broadcasting
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lesson-11/A5-more-broadcasting/" class="md-nav__link">
+        More Broadcasting
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lesson-11/A6-matmul-broadcasting/" class="md-nav__link">
+        Matrix Multiplication Broadcasting
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#concept-stable-diffusion-to-generate-handwritten-digits" class="md-nav__link">
+    Concept: Stable Diffusion to generate handwritten digits
+  </a>
+  
+    <nav class="md-nav" aria-label="Concept: Stable Diffusion to generate handwritten digits">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-happens-if-the-image-is-tweaked" class="md-nav__link">
+    What happens if the image is "tweaked"?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#if-we-had-the-gradient-what-would-we-do-with-it" class="md-nav__link">
+    If we had the gradient, what would we do with it?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-calculate-the-gradient" class="md-nav__link">
+    How to calculate the gradient?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#high-level-problem-definition" class="md-nav__link">
+    High-level problem definition
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a-forward-cycle" class="md-nav__link">
+    A forward-cycle
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#so-how-to-add-noise" class="md-nav__link">
+    So... how to add noise?
+  </a>
+  
+    <nav class="md-nav" aria-label="So... how to add noise?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#introducing-autoencoders" class="md-nav__link">
+    Introducing autoencoders
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#assembling-the-compressor-expander-with-the-nn" class="md-nav__link">
+    Assembling the compressor + expander with the NN
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-about-captions" class="md-nav__link">
+    What about captions?
+  </a>
+  
+    <nav class="md-nav" aria-label="What about captions?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#captions-to-vectors-an-example" class="md-nav__link">
+    Captions to vectors: an example
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="what-is-stable-diffusion">What is Stable Diffusion?</h1>
+<p><strong>First</strong> these image generating processes are not a perfect process. Jeremy tried to tune a model for a teddy bear "tiny" riding a horse, and was unsuccessful. Similarly even teddy bears on pink rug, also did not produce the expected images.</p>
+<h2 id="concept-stable-diffusion-to-generate-handwritten-digits">Concept: Stable Diffusion to generate handwritten digits</h2>
+<p>For a conceptual example, let's consider the following:</p>
+<ul>
+<li>Make a hand-written digit image generator</li>
+<li>imagine some function <code>f(x)</code> that if you fed it an image it could give you a probability <code>P(x) = 0.97</code> meaning a image was a hand-written digit</li>
+<li>if the image is very noisy, then the <code>P(x) = 0.02</code> would be very low</li>
+<li><strong>Premise</strong>: if a function like this exists, this <code>f(x)</code> could be used to generate images</li>
+</ul>
+<p><img src="https://i.ibb.co/VTLszYH/Screen-Shot-2022-10-23-at-9-05-31-PM.jpg" alt="Screen-Shot-2022-10-23-at-9-05-31-PM" border="2"></p>
+<h4 id="what-happens-if-the-image-is-tweaked">What happens if the image is "tweaked"?</h4>
+<ul>
+<li>Now consider the low scoring image <code>X3</code>. If a few pixels are turned darker, or lighter - maybe to form a <code>7</code> or leg of <code>4</code>,</li>
+<li>This will in turn also increase the <code>P(X)</code> that the image is of a hand-written image</li>
+<li>considering pixel by pixel tweaks and changes, this is close to calculating the gradient of the probability over the pixels</li>
+</ul>
+<p><img src="https://i.ibb.co/BrQj3sd/Screen-Shot-2022-10-23-at-9-05-42-PM.jpg" alt="Screen-Shot-2022-10-23-at-9-05-42-PM" border="2"></p>
+<h4 id="if-we-had-the-gradient-what-would-we-do-with-it">If we had the gradient, what would we do with it?</h4>
+<ul>
+<li>if we could get the gradient, we could <strong>subtract</strong> it from the original image, meaning the image would slowly become more like a "real" hand-written number</li>
+<li>
+<p>in <code>deep-learning</code> the gradient is changing the weights of the model. In <code>stable diffusion</code> we are changing the pixels of the image</p>
+</li>
+<li>
+<p>Start with an image</p>
+</li>
+<li>subtract the gradient (will talk about how we get this later) times some <code>C</code> constant</li>
+<li>image will be updated (ideally closer to a real number)</li>
+<li>the probability is re-evaluated, would probably go up by a small bit</li>
+</ul>
+<p><img src="https://i.ibb.co/HgTZgHF/Screen-Shot-2022-10-23-at-9-05-50-PM.jpg" alt="Screen-Shot-2022-10-23-at-9-05-50-PM" border="2"></p>
+<h4 id="how-to-calculate-the-gradient">How to calculate the gradient?</h4>
+<ul>
+<li>just like in high-school calculus, each pixel's gradient could be calculated</li>
+<li>for MNIST images, this is <code>28 x 28 == 784px</code>, which is a lot of calculations to do, <strong>very slow</strong></li>
+<li>it would be much better if there existed a <code>f.backward()</code> function that would provide us the <code>grad_X3</code></li>
+<li>But first, what is our <code>f</code> going to be? Hint: a <code>neural-network</code></li>
+</ul>
+<p><img src="https://i.ibb.co/X3vX2fj/Screen-Shot-2022-10-23-at-9-05-58-PM.jpg" alt="Screen-Shot-2022-10-23-at-9-05-58-PM" border="2"></p>
+<h4 id="high-level-problem-definition">High-level problem definition</h4>
+<ul>
+<li>lets assume our <code>NN</code> problem definition will be the following: <code>predict how much noise is in an image</code></li>
+<li><strong>Why?</strong> because quantifying "similarity to a hand-written number" is very difficult</li>
+<li>Need to define<ul>
+<li>inputs</li>
+<li>outputs</li>
+<li>loss function</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://i.ibb.co/9svQZb0/Screen-Shot-2022-10-23-at-9-06-06-PM.jpg" alt="Screen-Shot-2022-10-23-at-9-06-06-PM" border="2"></p>
+<h4 id="a-forward-cycle">A forward-cycle</h4>
+<ul>
+<li>inputs: <code>IMG + N(sigma, mu)</code>, in this case messy images</li>
+<li>outputs: <code>N_hat(sigma, mu)</code> predicted noise, in this case an image of ONLY noise</li>
+<li>loss function: <code>MSE</code></li>
+<li>calculate the gradient from the <code>MSELoss.backward()</code></li>
+<li>subtract gradient from <code>IMG - grad</code> and repeat!</li>
+</ul>
+<p><img src="https://i.ibb.co/TtRpnWg/Screen-Shot-2022-10-23-at-9-06-13-PM.jpg" alt="Screen-Shot-2022-10-23-at-9-06-13-PM" border="2"></p>
+<p>Sample cycle, a noisy image coes in, the <code>NN</code> predicts what it thinks is noise, we subtract it, and the image gets closer to looking like a <code>4</code></p>
+<p><img src="https://i.ibb.co/v1hsZW4/Screen-Shot-2022-10-23-at-9-06-18-PM.jpg" alt="Screen-Shot-2022-10-23-at-9-06-18-PM" border="2"></p>
+<h3 id="so-how-to-add-noise">So... how to add noise?</h3>
+<p><code>MNIST</code> images are very tiny + only black in white. Normal images are <code>512 x 512 x 3 = 6MB!</code> (last one is color channels RGB). This data "volume" will be difficult to process, how can it be done more efficiently?</p>
+<ul>
+<li>If the internet is considered, there are many full-sized images floating around that don't take the full space</li>
+<li>HD image <code>(1920 x 1080 x 3) = 6MB</code>!, and there are plenty of images much smaller <code>100KB</code></li>
+<li>Hint: think about JPEGs ... image compression!</li>
+</ul>
+<p><img src="https://i.ibb.co/6YsQTVP/Screen-Shot-2022-10-23-at-9-06-32-PM.jpg" alt="Screen-Shot-2022-10-23-at-9-06-32-PM" border="2"></p>
+<h4 id="introducing-autoencoders">Introducing autoencoders</h4>
+<p>The original volume is on the left, <code>512 x 512 x 3</code>, if we do the following:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>[INPUT] IMG_RAW (512 x 512 x 3) -&gt; ~6,000,000
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>  &lt;conv, stride 2&gt; -&gt; (256 x 256 x 6)
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>  &lt;conv, stride 2&gt; -&gt; (128 x 128 x 12)
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>  &lt;conv, stride 2&gt; -&gt; (64 x 24 x 24)
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>  &lt;resnet blocks&gt; -&gt;
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    (64 x 4 x 4) -&gt; 16,000 (much smaller)
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>  &lt;resnet blocks&gt; -&gt; (64 x 24 x 24)
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>  &lt;conv, stride 2&gt; -&gt; (128 x 128 x 12)
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>  &lt;conv, stride 2&gt; -&gt; (256 x 256 x 6)
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>  &lt;conv, stride 2&gt; -&gt; 
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    [OUTPUT] IMG_RAW (512 x 512 x 3)
+</code></pre></div>
+<p>Its a very strange <code>NN</code> design, that keeps shrinking the dimensions to a point via convolutions, then does the reverse, expanding with other convolutions till the output is ... the same image.</p>
+<ul>
+<li>Inputs: Image sized <code>512 x 512 x 3</code></li>
+<li>Outputs: Image sized <code>512 x 512 x 3</code></li>
+<li>What's the point of this?</li>
+</ul>
+<p>The main point of architectures like this is to "compress" complex inputs into smaller vector spaces. </p>
+<ul>
+<li>it can be for data storage size reasons</li>
+<li>it can be for extremely sparse inputs</li>
+<li>it could be for very correlated inputs, aka a non-linear PCA approach</li>
+</ul>
+<p>Anything that Shrinks the inputs, or the first half is called the <code>encoder</code>. Anything that expands the size is the <code>decoder</code>. So imagine, if our entire audience had the same trained + fit <code>decoder</code>, then "compressed" data files could be passed around instead of the full-sized one. We already do this today with JPEGS.</p>
+<p>Since the loss function is basically "is this the same image", <code>MSE</code> will be used again to calculate the pixel vs pixel difference. This is trained over a large corpus of images</p>
+<p><img src="https://i.ibb.co/SVtZBVv/Screen-Shot-2022-10-23-at-9-06-39-PM.jpg" alt="Screen-Shot-2022-10-23-at-9-06-39-PM" border="2"></p>
+<h4 id="assembling-the-compressor-expander-with-the-nn">Assembling the compressor + expander with the NN</h4>
+<ul>
+<li>first the auto-encoder will be trained independently</li>
+<li>once its fit, it is dis-assembled into <code>encoder</code> and <code>decoder</code> parts</li>
+<li><code>Raw Images</code> are compressed in the <code>encoder</code> into <code>latents</code></li>
+<li><code>Latents</code> are fed into the <code>NN aka Unet</code> which will predict <code>noise-only-latents</code></li>
+<li><code>noise-only-latents</code> will be expanded into the full <code>image</code> size</li>
+</ul>
+<p>Caveat: this <code>auto-encoder</code> approach is optional if you have infinite compute, but it is very resource hungry</p>
+<p><img src="https://i.ibb.co/TM46mN3/Screen-Shot-2022-10-23-at-9-06-45-PM.jpg" alt="Screen-Shot-2022-10-23-at-9-06-45-PM" border="2"></p>
+<h2 id="what-about-captions">What about captions?</h2>
+<p>We've talked about how images are created, but what about the prompt <code>astronaut riding a horse</code> how does the <code>text</code> fit into the image creation?</p>
+<p>In the handwritten numbers case, there's only 10 possible digits, so a <code>1-hot vector (size 10)</code> could be passed to the <code>NN</code> to give the model more information about what noise to target.</p>
+<p>The main issue with this is there are too many phrases in the english language to make a 1-hot vector large enough. So another approach is needed to do the following:</p>
+<ul>
+<li><code>astronaut on a horse</code> -&gt; a vector</li>
+<li><code>football in the style of monet</code> -&gt; different vector</li>
+</ul>
+<p><img src="https://i.ibb.co/7QkfwfT/Screen-Shot-2022-10-23-at-9-06-56-PM.jpg" alt="Screen-Shot-2022-10-23-at-9-06-56-PM" border="2"></p>
+<h3 id="captions-to-vectors-an-example">Captions to vectors: an example</h3>
+<p>Let's say there are 3 images:
+- dinosaur
+- bird
+- flaming sword</p>
+<p>From the internet, many of these images have short text phrases describing them for accessibility purposes (people who have a hard time seeing, there's text descriptions). A sample HTML code would look like the following:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;/myweb/dino.jpg&quot;</span> <span class="na">alt</span><span class="o">=</span><span class="s">&quot;a hungry dinosaur&quot;</span><span class="p">&gt;</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="p">&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;/myweb/bird.jpg&quot;</span> <span class="na">alt</span><span class="o">=</span><span class="s">&quot;a soaring bird&quot;</span><span class="p">&gt;</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="p">&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;/myweb/sword.jpg&quot;</span> <span class="na">alt</span><span class="o">=</span><span class="s">&quot;a burning sword&quot;</span><span class="p">&gt;</span>
+</code></pre></div>
+<p>Now that images + phrases have be associated, we can make a <code>siamese-net</code> like approach. </p>
+<ul>
+<li>the <code>text</code> will have its own encoder, say (1 x 64)</li>
+<li>the <code>image</code> will have its own encoder say (1 x 64)</li>
+<li>the <code>text_vectors</code> and the <code>image_vectors</code> will be dot-product with each other to give a <code>closeness</code> score. <code>0.95</code> means they are related <code>0.01</code> would mean the image + the caption are not related</li>
+<li>
+<p>the loss function will consider both correct answers and incorrect answers</p>
+<ul>
+<li>dino + "a hungry dinosaur" should be a high score</li>
+<li>sword + "a soaring bird" should be a low score</li>
+</ul>
+</li>
+<li>
+<p>and through this both the <code>text_encoder</code> and the <code>image_encoder</code> will be trained</p>
+</li>
+</ul>
+<p><img src="https://i.ibb.co/NTBfPvn/Screen-Shot-2022-10-23-at-9-07-06-PM.jpg" alt="Screen-Shot-2022-10-23-at-9-07-06-PM" border="2"></p>
+<p>How to pick your randomness</p>
+<p><img src="https://i.ibb.co/1TM5x9P/Screen-Shot-2022-10-23-at-9-07-16-PM.jpg" alt="Screen-Shot-2022-10-23-at-9-07-16-PM" border="2"></p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href="../A3-fine-tuning/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Fine Tuning Stable Diffusion" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Fine Tuning Stable Diffusion
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../../lesson-10/A1-Intro/" class="md-footer__link md-footer__link--next" aria-label="Next: Intro" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Intro
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.sections"], "search": "../../assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d6c3db9e.min.js"></script>
+      
+    
+  </body>
+</html>
