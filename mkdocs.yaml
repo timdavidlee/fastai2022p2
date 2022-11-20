@@ -33,3 +33,8 @@ nav:
   - Broadcasting: lesson-11/A4-broadcasting.md
   - More Broadcasting: lesson-11/A5-more-broadcasting.md
   - Matrix Multiplication Broadcasting: lesson-11/A6-matmul-broadcasting.md
+- Lesson 12:
+  - Intro: lesson-12/A1-intro.md
+  - Matmul: lesson-12/A2-matmul.md
+  - Implement Clustering with Matrices: lesson-12/A3-mean-shift.md
+  - Intro to calculus: lesson-12/A4-calculus.md
