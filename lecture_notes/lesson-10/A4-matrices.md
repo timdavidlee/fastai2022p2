@@ -123,4 +123,124 @@ one_d, two_d
 img_as_tensor = tensor(img_as_list_of_lists)
 ```
 
-Note that all this work above was done for a single image array.
+Note that all this work above was done for a single image array. Lets use python's `map` function to apply it to many things at once. Consider a quick example below:
+
+```python
+a, b, c, d = map(lambda x: x + 1, [1, 2, 3, 4])
+"""
+a, b, c, d
+(2, 3, 4, 5)
+a
+2
+"""
+```
+
+- The map will go through and apply our function `x + 1` against each item in the list.
+- Also notice, since we are returning 4 values, if we put exactly 4 variables on the left side, we can do individual assignments
+
+Now lets use this method on the training + validation datasets
+
+```python
+x_trn_tensor, y_trn_tensor, x_val_tensor, y_val_tensor = map(tensor, (x_train, y_train, x_valid, y_valid))
+x_trn_tensor.shape
+# >>> torch.Size([50000, 784])
+```
+
+**properties of torch.tensor**
+
+- `.shape`: tells the size of the different dimensions
+- `.type()`: tells the type, `float`, `long`, `int` and will also tell the precision `16, 32, 64`
+- `.reshape(shape=new_size)`: can re-arrange the elements into a different shape
+
+```python
+t1 = torch.tensor([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])
+t2 = t1.reshape(shape=(2, 6))
+t3 = t1.reshape(shape=(3, 4))
+t4 = t1.reshape(shape=(12, 1))
+
+t1.shape, t2.shape, t3.shape, t4.shape
+"""
+(torch.Size([12]), torch.Size([2, 6]), torch.Size([3, 4]), torch.Size([12, 1]))
+"""
+
+t2
+"""
+tensor([[ 1,  2,  3,  4,  5,  6],
+        [ 7,  8,  9, 10, 11, 12]])
+"""
+```
+
+**Caveat**: pay close attention to 1-Dish tensors: `shape=(12,)` is not the same as `shape=(12, 1)` or `shape=(1, 12)`
+
+```python
+# note the original was [50000, 784]
+imgs = x_trn_tensor.reshape((-1, 28, 28))
+imgs.shape
+"""
+torch.Size([50000, 28, 28])
+"""
+
+plt.imshow(imgs[0])
+```
+
+Note that the `-1` means "keep the first dimension"
+
+--image--
+
+## A quick word on vocab
+
+`APL` is a programming language developed closer to the expressions found in math. (https://tryapl.org/)[https://tryapl.org/]. In APL, they don't use the word `tensor` they use the word `arrays`. `numpy` which was heavily influenced by `APL` also borrowed the language and called these `arrays`. Pytorch which was heavily influenced by numpy, for some reason calls them `tensors`.
+
+- `1-D tensor`: is like a vector, or list
+- `2-D tensor`: is like a matrix, or spreadsheet
+- `3-D tensor`: is like a cube, a batch of matrices, or a stack of spreadsheets
+- and can be much higher order dimensions!
+
+`Fast.ai` has a [APL study Forum](https://forums.fast.ai/t/apl-array-programming/97188)
+
+## Language of Tensors 
+
+### Rank - how many dimensions are there?
+
+Here's an example of a rank-1 tensor
+
+```python
+z = torch.tensor([1, 2, 3, 4])
+z.shape
+# torch.Size([4])
+```
+
+Note the extra nested list
+
+```python
+z = torch.tensor([[1, 2, 3, 4],])
+z.shape
+# torch.Size([1, 4])
+```
+
+Now considering all our images, will be rank-3
+
+```python
+imgs.shape
+# torch.Size([50000, 28, 28])
+
+```
+
+A single image would be a rank-2 matrix
+
+```python
+imgs[0].shape
+# torch.Size([28, 28])
+```
+
+## Extract information about the dataset from the tensors
+
+```python
+n_records, n_pixels = x_trn_tensor.shape
+
+# how many targets
+min(y_trn_tensor)   # 9
+max(y_trn_tensor)   # 0
+```
+
+So there are a total of 10 classes, and they will be labels

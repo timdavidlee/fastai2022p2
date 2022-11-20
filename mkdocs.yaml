@@ -1,0 +1,25 @@
+site_url: https://timdavidlee.github.io/fastai2022p2/
+site_name: Lecture Notes for Intermediate deep learning
+docs_dir: lecture_notes
+theme:
+    name: material
+    palette:
+        primary: teal
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+nav:
+- Home: index.md
+- Lesson 9:
+  - Pre Lesson: lesson-09/A1-pre-lesson.md
+  - Stable Diffusion: lesson-09/A2-stable-diffusion-fun.md
+  - Fine Tuning Stable Diffusion: lesson-09/A3-fine-tuning.md
+  - Under the Hood: lesson-09/B1-under-the-hood.md
+- Lesson 10:
+  - Intro: lesson-10/A1-Intro.md
+  - Under the hood of Pipeline: lesson-10/A2-pipeline-under-the-hood.md
+  - Lists, Matrices and More: lesson-10/A3-lists-matrices-and-more.md
+  - More Matrix Operations: lesson-10/A4-matrices.md
