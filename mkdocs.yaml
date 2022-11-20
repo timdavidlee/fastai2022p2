@@ -4,13 +4,16 @@ docs_dir: lecture_notes
 theme:
     name: material
     palette:
-        primary: teal
+        primary: blue grey
+    features:
+      - navigation.sections
 markdown_extensions:
   - pymdownx.highlight:
       anchor_linenums: true
   - pymdownx.inlinehilite
   - pymdownx.snippets
   - pymdownx.superfences
+
 nav:
 - Home: index.md
 - Lesson 9:
@@ -23,3 +26,10 @@ nav:
   - Under the hood of Pipeline: lesson-10/A2-pipeline-under-the-hood.md
   - Lists, Matrices and More: lesson-10/A3-lists-matrices-and-more.md
   - More Matrix Operations: lesson-10/A4-matrices.md
+- Lesson 11:
+  - DiffEdit Paper: lesson-11/A1-diffedit-paper.md
+  - Matrix Operations: lesson-11/A2-matrix_operations.md
+  - Elementwise Operations: lesson-11/A3-elementwise-ops.md
+  - Broadcasting: lesson-11/A4-broadcasting.md
+  - More Broadcasting: lesson-11/A5-more-broadcasting.md
+  - Matrix Multiplication Broadcasting: lesson-11/A6-matmul-broadcasting.md
