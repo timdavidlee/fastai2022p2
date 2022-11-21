@@ -2,87 +2,107 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://timdavidlee.github.io/fastai2022p2/</loc>
-         <lastmod>2022-11-20</lastmod>
+         <lastmod>2022-11-21</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://timdavidlee.github.io/fastai2022p2/lesson-09/A1-pre-lesson/</loc>
-         <lastmod>2022-11-20</lastmod>
+         <lastmod>2022-11-21</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://timdavidlee.github.io/fastai2022p2/lesson-09/A2-stable-diffusion-fun/</loc>
-         <lastmod>2022-11-20</lastmod>
+         <lastmod>2022-11-21</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://timdavidlee.github.io/fastai2022p2/lesson-09/A3-fine-tuning/</loc>
-         <lastmod>2022-11-20</lastmod>
+         <lastmod>2022-11-21</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://timdavidlee.github.io/fastai2022p2/lesson-09/B1-under-the-hood/</loc>
-         <lastmod>2022-11-20</lastmod>
+         <lastmod>2022-11-21</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://timdavidlee.github.io/fastai2022p2/lesson-10/A1-Intro/</loc>
-         <lastmod>2022-11-20</lastmod>
+         <lastmod>2022-11-21</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://timdavidlee.github.io/fastai2022p2/lesson-10/A2-pipeline-under-the-hood/</loc>
-         <lastmod>2022-11-20</lastmod>
+         <lastmod>2022-11-21</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://timdavidlee.github.io/fastai2022p2/lesson-10/A3-lists-matrices-and-more/</loc>
-         <lastmod>2022-11-20</lastmod>
+         <lastmod>2022-11-21</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://timdavidlee.github.io/fastai2022p2/lesson-10/A4-matrices/</loc>
-         <lastmod>2022-11-20</lastmod>
+         <lastmod>2022-11-21</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://timdavidlee.github.io/fastai2022p2/lesson-10/A5-random_numbers/</loc>
-         <lastmod>2022-11-20</lastmod>
+         <lastmod>2022-11-21</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://timdavidlee.github.io/fastai2022p2/lesson-10b/A1-diffedit/</loc>
-         <lastmod>2022-11-20</lastmod>
+         <lastmod>2022-11-21</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://timdavidlee.github.io/fastai2022p2/lesson-11/A1-diffedit-paper/</loc>
-         <lastmod>2022-11-20</lastmod>
+         <lastmod>2022-11-21</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://timdavidlee.github.io/fastai2022p2/lesson-11/A2-matrix_operations/</loc>
-         <lastmod>2022-11-20</lastmod>
+         <lastmod>2022-11-21</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://timdavidlee.github.io/fastai2022p2/lesson-11/A3-elementwise-ops/</loc>
-         <lastmod>2022-11-20</lastmod>
+         <lastmod>2022-11-21</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://timdavidlee.github.io/fastai2022p2/lesson-11/A4-broadcasting/</loc>
-         <lastmod>2022-11-20</lastmod>
+         <lastmod>2022-11-21</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://timdavidlee.github.io/fastai2022p2/lesson-11/A5-more-broadcasting/</loc>
-         <lastmod>2022-11-20</lastmod>
+         <lastmod>2022-11-21</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://timdavidlee.github.io/fastai2022p2/lesson-11/A6-matmul-broadcasting/</loc>
-         <lastmod>2022-11-20</lastmod>
+         <lastmod>2022-11-21</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://timdavidlee.github.io/fastai2022p2/lesson-12/A1-intro/</loc>
+         <lastmod>2022-11-21</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://timdavidlee.github.io/fastai2022p2/lesson-12/A2-matmul/</loc>
+         <lastmod>2022-11-21</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://timdavidlee.github.io/fastai2022p2/lesson-12/A3-mean-shift/</loc>
+         <lastmod>2022-11-21</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://timdavidlee.github.io/fastai2022p2/lesson-12/A4-calculus/</loc>
+         <lastmod>2022-11-21</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>

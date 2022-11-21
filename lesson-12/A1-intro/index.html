@@ -8,14 +8,14 @@
       
       
       
-        <link rel="canonical" href="https://timdavidlee.github.io/fastai2022p2/lesson-11/A5-more-broadcasting/">
+        <link rel="canonical" href="https://timdavidlee.github.io/fastai2022p2/lesson-12/A1-intro/">
       
       <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-8.5.10">
     
     
       
-        <title>More Broadcasting - Lecture Notes for Intermediate deep learning</title>
+        <title>Intro - Lecture Notes for Intermediate deep learning</title>
       
     
     
@@ -68,7 +68,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#other-broadcasing-examples" class="md-skip">
+        <a href="#introduction-remarks" class="md-skip">
           Skip to content
         </a>
       
@@ -101,7 +101,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              More Broadcasting
+              Intro
             
           </span>
         </div>
@@ -384,16 +384,14 @@
 
   
   
-    
-  
   
     
       
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" checked>
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
       
       
       
@@ -416,7 +414,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../A1-diffedit-paper/" class="md-nav__link">
+      <a href="../../lesson-11/A1-diffedit-paper/" class="md-nav__link">
         DiffEdit Paper
       </a>
     </li>
@@ -430,7 +428,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../A2-matrix_operations/" class="md-nav__link">
+      <a href="../../lesson-11/A2-matrix_operations/" class="md-nav__link">
         Matrix Operations
       </a>
     </li>
@@ -444,7 +442,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../A3-elementwise-ops/" class="md-nav__link">
+      <a href="../../lesson-11/A3-elementwise-ops/" class="md-nav__link">
         Elementwise Operations
       </a>
     </li>
@@ -458,7 +456,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../A4-broadcasting/" class="md-nav__link">
+      <a href="../../lesson-11/A4-broadcasting/" class="md-nav__link">
         Broadcasting
       </a>
     </li>
@@ -470,48 +468,11 @@
               
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          More Broadcasting
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../lesson-11/A5-more-broadcasting/" class="md-nav__link">
         More Broadcasting
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#other-broadcasing-examples" class="md-nav__link">
-    Other Broadcasing Examples
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -523,7 +484,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../A6-matmul-broadcasting/" class="md-nav__link">
+      <a href="../../lesson-11/A6-matmul-broadcasting/" class="md-nav__link">
         Matrix Multiplication Broadcasting
       </a>
     </li>
@@ -543,14 +504,16 @@
 
   
   
+    
+  
   
     
       
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" checked>
       
       
       
@@ -571,11 +534,59 @@
               
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../../lesson-12/A1-intro/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Intro
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Intro
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#looking-at-the-hugging-face-app-code" class="md-nav__link">
+    Looking at the Hugging Face App code:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#blip-language-model" class="md-nav__link">
+    BLIP Language Model
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -587,7 +598,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../lesson-12/A2-matmul/" class="md-nav__link">
+      <a href="../A2-matmul/" class="md-nav__link">
         Matmul
       </a>
     </li>
@@ -601,7 +612,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../lesson-12/A3-mean-shift/" class="md-nav__link">
+      <a href="../A3-mean-shift/" class="md-nav__link">
         Implement Clustering with Matrices
       </a>
     </li>
@@ -615,7 +626,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../lesson-12/A4-calculus/" class="md-nav__link">
+      <a href="../A4-calculus/" class="md-nav__link">
         Intro to calculus
       </a>
     </li>
@@ -646,6 +657,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -654,8 +667,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#other-broadcasing-examples" class="md-nav__link">
-    Other Broadcasing Examples
+  <a href="#looking-at-the-hugging-face-app-code" class="md-nav__link">
+    Looking at the Hugging Face App code:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#blip-language-model" class="md-nav__link">
+    BLIP Language Model
   </a>
   
 </li>
@@ -675,62 +695,30 @@
                   
 
 
-  <h1>More Broadcasting</h1>
-
-<h3 id="other-broadcasing-examples">Other Broadcasing Examples</h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span> <span class="nn">torch</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">tensor</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">vec</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mf">10.</span><span class="p">,</span> <span class="mf">20.</span><span class="p">,</span> <span class="mf">30.</span><span class="p">])</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="n">vec</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="sd">&quot;&quot;&quot;</span>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="sd">tensor([[10., 20., 30.]])</span>
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="sd">torch.Size([1, 3])</span>
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="sd">&quot;&quot;&quot;</span>
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>
-<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="n">vec</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span>
-<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="sd">&quot;&quot;&quot;</span>
-<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="sd">tensor([[10.],</span>
-<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="sd">        [20.],</span>
-<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="sd">        [30.]])</span>
-<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="sd">torch.Size([3, 1])</span>
-<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="sd">&quot;&quot;&quot;</span> 
+<h1 id="introduction-remarks">Introduction Remarks</h1>
+<p><a href="https://huggingface.co/spaces/pharma/CLIP-Interrogator">https://huggingface.co/spaces/pharma/CLIP-Interrogator</a></p>
+<p>Put an image, and it will generate a CLIP prompt. The CLIP prompt is intended to be supplied into  </p>
+<p>-- hand written notes --</p>
+<h2 id="looking-at-the-hugging-face-app-code">Looking at the Hugging Face App code:</h2>
+<p><a href="https://huggingface.co/spaces/pharma/CLIP-Interrogator/blob/main/app.py">https://huggingface.co/spaces/pharma/CLIP-Interrogator/blob/main/app.py</a></p>
+<p>Note the reference data: <a href="https://huggingface.co/spaces/pharma/CLIP-Interrogator/tree/main/data">https://huggingface.co/spaces/pharma/CLIP-Interrogator/tree/main/data</a></p>
+<p>The app will mix and match the various phrases to generate captions based on the uploaded image</p>
+<p><code>https://huggingface.co/spaces/pharma/CLIP-Interrogator/blob/main/data/artists.txt</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>A. B. Jackson
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>A. J. Casson
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>A. R. Middleton Todd
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>A.B. Frost
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>A.D.M. Cooper
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>Aaron Bohrod
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>Aaron Douglas
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>Aaron Jasinski
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>Aaron Miller
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>Aaron Nagel
 </code></pre></div>
-<p>What happens when a column is multiplied against the row?</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">vec</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">vec</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="sd">&quot;&quot;&quot;</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="sd">tensor([[100., 200., 300.],</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="sd">        [200., 400., 600.],</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="sd">        [300., 600., 900.]])</span>
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="sd">torch.Size([3, 1]) x torch.Size([1, 3]) =&gt; torch.Size([3, 3])</span>
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="sd">&quot;&quot;&quot;</span>
-</code></pre></div>
-<p>What if the order was reversed?</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">vec</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span> <span class="o">*</span> <span class="n">vec</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="sd">&quot;&quot;&quot;</span>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="sd">tensor([[100., 200., 300.],</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="sd">        [200., 400., 600.],</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="sd">        [300., 600., 900.]])</span>
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
-<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="sd">torch.Size([3, 1]) x torch.Size([1, 3]) =&gt; torch.Size([3, 3])</span>
-<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="sd">&quot;&quot;&quot;</span>
-</code></pre></div>
-<p>From the notebook:</p>
-<div class="highlight"><pre><span></span><code>When operating on two arrays/tensors, Numpy/PyTorch compares their shapes element-wise. It starts with the **trailing dimensions**, and works its way forward. Two dimensions are **compatible** when
-
-- they are equal, or
-- one of them is 1, in which case that dimension is broadcasted to make it the same size
-
-Arrays do not need to have the same number of dimensions. For example, if you have a `256*256*3` array of RGB values, and you want to scale each color in the image by a different value, you can multiply the image by a one-dimensional array with 3 values. Lining up the sizes of the trailing axes of these arrays according to the broadcast rules, shows that they are compatible:
-
-    Image  (3d array): 256 x 256 x 3
-    Scale  (1d array):             3
-    Result (3d array): 256 x 256 x 3
-
-The [numpy documentation](https://docs.scipy.org/doc/numpy-1.13.0/user/basics.broadcasting.html#general-broadcasting-rules) includes several examples of what dimensions can and can not be broadcast together.
-</code></pre></div>
+<h2 id="blip-language-model">BLIP Language Model</h2>
+<p>Bootstrapping Language Image Pre-training for Unified Vision-Language understanding</p>
+<p><a href="https://arxiv.org/abs/2201.12086">arxiv paper</a></p>
+<p>This is specifically designed to give an ok caption from an image, but it is NOT the inverse of the CLIP encoder</p>
 
 
 
@@ -751,7 +739,7 @@ The [numpy documentation](https://docs.scipy.org/doc/numpy-1.13.0/user/basics.br
     <nav class="md-footer__inner md-grid" aria-label="Footer" >
       
         
-        <a href="../A4-broadcasting/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Broadcasting" rel="prev">
+        <a href="../../lesson-11/A6-matmul-broadcasting/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Matrix Multiplication Broadcasting" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
           </div>
@@ -760,20 +748,20 @@ The [numpy documentation](https://docs.scipy.org/doc/numpy-1.13.0/user/basics.br
               <span class="md-footer__direction">
                 Previous
               </span>
-              Broadcasting
+              Matrix Multiplication Broadcasting
             </div>
           </div>
         </a>
       
       
         
-        <a href="../A6-matmul-broadcasting/" class="md-footer__link md-footer__link--next" aria-label="Next: Matrix Multiplication Broadcasting" rel="next">
+        <a href="../A2-matmul/" class="md-footer__link md-footer__link--next" aria-label="Next: Matmul" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Matrix Multiplication Broadcasting
+              Matmul
             </div>
           </div>
           <div class="md-footer__button md-icon">

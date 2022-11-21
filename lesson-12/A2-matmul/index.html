@@ -1,0 +1,988 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://timdavidlee.github.io/fastai2022p2/lesson-12/A2-matmul/">
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-8.5.10">
+    
+    
+      
+        <title>Matmul - Lecture Notes for Intermediate deep learning</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.472b142f.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.08040f6c.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#546d78">
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#finishing-up-matmul" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Lecture Notes for Intermediate deep learning" class="md-header__button md-logo" aria-label="Lecture Notes for Intermediate deep learning" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Lecture Notes for Intermediate deep learning
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Matmul
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Lecture Notes for Intermediate deep learning" class="md-nav__button md-logo" aria-label="Lecture Notes for Intermediate deep learning" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Lecture Notes for Intermediate deep learning
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          Lesson 9
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Lesson 9" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Lesson 9
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lesson-09/A1-pre-lesson/" class="md-nav__link">
+        Pre Lesson
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lesson-09/A2-stable-diffusion-fun/" class="md-nav__link">
+        Stable Diffusion
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lesson-09/A3-fine-tuning/" class="md-nav__link">
+        Fine Tuning Stable Diffusion
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lesson-09/B1-under-the-hood/" class="md-nav__link">
+        Under the Hood
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          Lesson 10
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Lesson 10" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Lesson 10
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lesson-10/A1-Intro/" class="md-nav__link">
+        Intro
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lesson-10/A2-pipeline-under-the-hood/" class="md-nav__link">
+        Under the hood of Pipeline
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lesson-10/A3-lists-matrices-and-more/" class="md-nav__link">
+        Lists, Matrices and More
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lesson-10/A4-matrices/" class="md-nav__link">
+        More Matrix Operations
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          Lesson 11
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Lesson 11" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Lesson 11
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lesson-11/A1-diffedit-paper/" class="md-nav__link">
+        DiffEdit Paper
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lesson-11/A2-matrix_operations/" class="md-nav__link">
+        Matrix Operations
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lesson-11/A3-elementwise-ops/" class="md-nav__link">
+        Elementwise Operations
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lesson-11/A4-broadcasting/" class="md-nav__link">
+        Broadcasting
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lesson-11/A5-more-broadcasting/" class="md-nav__link">
+        More Broadcasting
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lesson-11/A6-matmul-broadcasting/" class="md-nav__link">
+        Matrix Multiplication Broadcasting
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5">
+          Lesson 12
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Lesson 12" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Lesson 12
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../A1-intro/" class="md-nav__link">
+        Intro
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Matmul
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Matmul
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#recap" class="md-nav__link">
+    Recap
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#einstein-summation" class="md-nav__link">
+    Einstein Summation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pytorch-matmul-speed" class="md-nav__link">
+    Pytorch Matmul Speed
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-about-gpu-cuda-matmul" class="md-nav__link">
+    What about GPU + CUDA Matmul?
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../A3-mean-shift/" class="md-nav__link">
+        Implement Clustering with Matrices
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../A4-calculus/" class="md-nav__link">
+        Intro to calculus
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#recap" class="md-nav__link">
+    Recap
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#einstein-summation" class="md-nav__link">
+    Einstein Summation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pytorch-matmul-speed" class="md-nav__link">
+    Pytorch Matmul Speed
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-about-gpu-cuda-matmul" class="md-nav__link">
+    What about GPU + CUDA Matmul?
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="finishing-up-matmul">Finishing up Matmul</h1>
+<h2 id="recap">Recap</h2>
+<p>The goal of this walkthrough is to remove as many loops as possible:</p>
+<h2 id="einstein-summation">Einstein Summation</h2>
+<p>Einsten summation  or <code>torch.einsum</code> is a compact representation for combining products and sums in a general way.</p>
+<p>So consider the following, we have two matrices: <code>m1</code> and <code>m2</code></p>
+<ul>
+<li><code>m1</code> is <code>5 x 784</code> which represents the 5 images of <code>28 x 28</code></li>
+<li><code>m2</code> is <code>784 x 10</code> which represents the weights, each one of those pixels relates to the 10 classes <code>(0-9) digits</code></li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span> <span class="nn">torch</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">mr</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;ik,kj-&gt;ikj&#39;</span><span class="p">,</span> <span class="n">m1</span><span class="p">,</span> <span class="n">m2</span><span class="p">)</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">mr</span><span class="o">.</span><span class="n">shape</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Size</span><span class="p">([</span><span class="mi">5</span><span class="p">,</span> <span class="mi">784</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>
+</code></pre></div>
+<p>This can also be thought of as this:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>m1, row1 x m2, col1 -&gt; 784 elements
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>m1, row2 x m2, col1 -&gt; 784 elements
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>... and so on
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>Resulting in a stack of 5 x 784 x 10
+</code></pre></div>
+<p>Consider the following:</p>
+<ul>
+<li>the first row of <code>m1</code> times the first column of <code>m2</code></li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">first_by_first</span> <span class="o">=</span> <span class="p">(</span><span class="n">m1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">m2</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">first_by_first</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">tensor</span><span class="p">(</span><span class="o">-</span><span class="mf">10.94</span><span class="p">)</span>
+</code></pre></div>
+<p>As proof, the first sample in the result <code>mr</code> looks like the following:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">mr</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="n">tensor</span><span class="p">([[</span><span class="o">-</span><span class="mf">10.94</span><span class="p">,</span>  <span class="o">-</span><span class="mf">0.68</span><span class="p">,</span>  <span class="o">-</span><span class="mf">7.00</span><span class="p">,</span>  <span class="o">-</span><span class="mf">4.01</span><span class="p">,</span>  <span class="o">-</span><span class="mf">2.09</span><span class="p">,</span>  <span class="o">-</span><span class="mf">3.36</span><span class="p">,</span>   <span class="mf">3.91</span><span class="p">,</span>  <span class="o">-</span><span class="mf">3.44</span><span class="p">,</span> <span class="o">-</span><span class="mf">11.47</span><span class="p">,</span>  <span class="o">-</span><span class="mf">2.12</span><span class="p">],</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>        <span class="p">[</span> <span class="mf">14.54</span><span class="p">,</span>   <span class="mf">6.00</span><span class="p">,</span>   <span class="mf">2.89</span><span class="p">,</span>  <span class="o">-</span><span class="mf">4.08</span><span class="p">,</span>   <span class="mf">6.59</span><span class="p">,</span> <span class="o">-</span><span class="mf">14.74</span><span class="p">,</span>  <span class="o">-</span><span class="mf">9.28</span><span class="p">,</span>   <span class="mf">2.16</span><span class="p">,</span> <span class="o">-</span><span class="mf">15.28</span><span class="p">,</span>  <span class="o">-</span><span class="mf">2.68</span><span class="p">],</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>        <span class="p">[</span>  <span class="mf">2.22</span><span class="p">,</span>  <span class="o">-</span><span class="mf">3.22</span><span class="p">,</span>  <span class="o">-</span><span class="mf">4.80</span><span class="p">,</span>  <span class="o">-</span><span class="mf">6.05</span><span class="p">,</span>  <span class="mf">14.17</span><span class="p">,</span>  <span class="o">-</span><span class="mf">8.98</span><span class="p">,</span>  <span class="o">-</span><span class="mf">4.79</span><span class="p">,</span>  <span class="o">-</span><span class="mf">5.44</span><span class="p">,</span> <span class="o">-</span><span class="mf">20.68</span><span class="p">,</span>  <span class="mf">13.57</span><span class="p">],</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>        <span class="p">[</span> <span class="o">-</span><span class="mf">6.71</span><span class="p">,</span>   <span class="mf">8.90</span><span class="p">,</span>  <span class="o">-</span><span class="mf">7.46</span><span class="p">,</span>  <span class="o">-</span><span class="mf">7.90</span><span class="p">,</span>   <span class="mf">2.70</span><span class="p">,</span>  <span class="o">-</span><span class="mf">4.73</span><span class="p">,</span> <span class="o">-</span><span class="mf">11.03</span><span class="p">,</span> <span class="o">-</span><span class="mf">12.98</span><span class="p">,</span>  <span class="o">-</span><span class="mf">6.44</span><span class="p">,</span>   <span class="mf">3.64</span><span class="p">],</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>        <span class="p">[</span> <span class="o">-</span><span class="mf">2.44</span><span class="p">,</span>  <span class="o">-</span><span class="mf">6.40</span><span class="p">,</span>  <span class="o">-</span><span class="mf">2.40</span><span class="p">,</span>  <span class="o">-</span><span class="mf">9.04</span><span class="p">,</span>  <span class="mf">11.18</span><span class="p">,</span>  <span class="o">-</span><span class="mf">5.77</span><span class="p">,</span>  <span class="o">-</span><span class="mf">8.92</span><span class="p">,</span>  <span class="o">-</span><span class="mf">3.79</span><span class="p">,</span>  <span class="o">-</span><span class="mf">8.98</span><span class="p">,</span>   <span class="mf">5.28</span><span class="p">]])</span>
+</code></pre></div>
+<p>And that upper left hand value matches or row x column multiplication</p>
+<p>So to recap:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">torch</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;ik,kj-&gt;ikj&#39;</span><span class="p">,</span> <span class="n">m1</span><span class="p">,</span> <span class="n">m2</span><span class="p">)</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="sd">&quot;&quot;&quot;</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="sd">Will leave the elements in the middle (k)</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="sd">&quot;&quot;&quot;</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="n">torch</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;ik,kj-&gt;ij&#39;</span><span class="p">,</span> <span class="n">m1</span><span class="p">,</span> <span class="n">m2</span><span class="p">)</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="sd">&quot;&quot;&quot;</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="sd">Since the middle indice is not available, will sum in that dimension</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="sd">&quot;&quot;&quot;</span>
+</code></pre></div>
+<p>Using this we can re-write <code>matmul</code> using <code>einsum</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">def</span> <span class="nf">matmul</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;ik,kj-&gt;ij&#39;</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+</code></pre></div>
+<p>What about speed?</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">test_close</span><span class="p">(</span><span class="n">tr</span><span class="p">,</span> <span class="n">matmul</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">weights</span><span class="p">),</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">)</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="o">%</span><span class="n">timeit</span> <span class="o">-</span><span class="n">n</span> <span class="mi">5</span> <span class="n">_</span><span class="o">=</span><span class="n">matmul</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">weights</span><span class="p">)</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="o">&gt;&gt;&gt;</span> <span class="mf">15.1</span> <span class="n">ms</span> <span class="err">±</span> <span class="mi">176</span> <span class="n">µs</span> <span class="n">per</span> <span class="n">loop</span> <span class="p">(</span><span class="n">mean</span> <span class="err">±</span> <span class="n">std</span><span class="o">.</span> <span class="n">dev</span><span class="o">.</span> <span class="n">of</span> <span class="mi">7</span> <span class="n">runs</span><span class="p">,</span> <span class="mi">5</span> <span class="n">loops</span> <span class="n">each</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="pytorch-matmul-speed">Pytorch Matmul Speed</h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">test_close</span><span class="p">(</span><span class="n">tr</span><span class="p">,</span> <span class="n">x_train</span> <span class="o">@</span> <span class="n">weights</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">)</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="o">%</span><span class="n">timeit</span> <span class="o">-</span><span class="n">n</span> <span class="mi">5</span> <span class="n">_</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">weights</span><span class="p">)</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="o">&gt;&gt;&gt;</span> <span class="mf">15.2</span> <span class="n">ms</span> <span class="err">±</span> <span class="mf">96.2</span> <span class="n">µs</span> <span class="n">per</span> <span class="n">loop</span> <span class="p">(</span><span class="n">mean</span> <span class="err">±</span> <span class="n">std</span><span class="o">.</span> <span class="n">dev</span><span class="o">.</span> <span class="n">of</span> <span class="mi">7</span> <span class="n">runs</span><span class="p">,</span> <span class="mi">5</span> <span class="n">loops</span> <span class="n">each</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="what-about-gpu-cuda-matmul">What about GPU + CUDA Matmul?</h2>
+<p>GPUs generally have lower clock speeds but are great at parallel calculations. To help illustrate this, consider the following function that only fills in one part of the grid (similar to <code>first_by_first</code> idea above)</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># the previous result of matmul</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="n">tensor</span><span class="p">([[</span><span class="o">-</span><span class="mf">10.94</span><span class="p">,</span>  <span class="o">-</span><span class="mf">0.68</span><span class="p">,</span>  <span class="o">-</span><span class="mf">7.00</span><span class="p">,</span>  <span class="o">-</span><span class="mf">4.01</span><span class="p">,</span>  <span class="o">-</span><span class="mf">2.09</span><span class="p">,</span>  <span class="o">-</span><span class="mf">3.36</span><span class="p">,</span>   <span class="mf">3.91</span><span class="p">,</span>  <span class="o">-</span><span class="mf">3.44</span><span class="p">,</span> <span class="o">-</span><span class="mf">11.47</span><span class="p">,</span>  <span class="o">-</span><span class="mf">2.12</span><span class="p">],</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>        <span class="p">[</span> <span class="mf">14.54</span><span class="p">,</span>   <span class="mf">6.00</span><span class="p">,</span>   <span class="mf">2.89</span><span class="p">,</span>  <span class="o">-</span><span class="mf">4.08</span><span class="p">,</span>   <span class="mf">6.59</span><span class="p">,</span> <span class="o">-</span><span class="mf">14.74</span><span class="p">,</span>  <span class="o">-</span><span class="mf">9.28</span><span class="p">,</span>   <span class="mf">2.16</span><span class="p">,</span> <span class="o">-</span><span class="mf">15.28</span><span class="p">,</span>  <span class="o">-</span><span class="mf">2.68</span><span class="p">],</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>        <span class="p">[</span>  <span class="mf">2.22</span><span class="p">,</span>  <span class="o">-</span><span class="mf">3.22</span><span class="p">,</span>  <span class="o">-</span><span class="mf">4.80</span><span class="p">,</span>  <span class="o">-</span><span class="mf">6.05</span><span class="p">,</span>  <span class="mf">14.17</span><span class="p">,</span>  <span class="o">-</span><span class="mf">8.98</span><span class="p">,</span>  <span class="o">-</span><span class="mf">4.79</span><span class="p">,</span>  <span class="o">-</span><span class="mf">5.44</span><span class="p">,</span> <span class="o">-</span><span class="mf">20.68</span><span class="p">,</span>  <span class="mf">13.57</span><span class="p">],</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>        <span class="p">[</span> <span class="o">-</span><span class="mf">6.71</span><span class="p">,</span>   <span class="mf">8.90</span><span class="p">,</span>  <span class="o">-</span><span class="mf">7.46</span><span class="p">,</span>  <span class="o">-</span><span class="mf">7.90</span><span class="p">,</span>   <span class="mf">2.70</span><span class="p">,</span>  <span class="o">-</span><span class="mf">4.73</span><span class="p">,</span> <span class="o">-</span><span class="mf">11.03</span><span class="p">,</span> <span class="o">-</span><span class="mf">12.98</span><span class="p">,</span>  <span class="o">-</span><span class="mf">6.44</span><span class="p">,</span>   <span class="mf">3.64</span><span class="p">],</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>        <span class="p">[</span> <span class="o">-</span><span class="mf">2.44</span><span class="p">,</span>  <span class="o">-</span><span class="mf">6.40</span><span class="p">,</span>  <span class="o">-</span><span class="mf">2.40</span><span class="p">,</span>  <span class="o">-</span><span class="mf">9.04</span><span class="p">,</span>  <span class="mf">11.18</span><span class="p">,</span>  <span class="o">-</span><span class="mf">5.77</span><span class="p">,</span>  <span class="o">-</span><span class="mf">8.92</span><span class="p">,</span>  <span class="o">-</span><span class="mf">3.79</span><span class="p">,</span>  <span class="o">-</span><span class="mf">8.98</span><span class="p">,</span>   <span class="mf">5.28</span><span class="p">]])</span>
+</code></pre></div>
+<p>Below is the function design just to calculate 1 value in the above array</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">def</span> <span class="nf">matmul</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>    <span class="sd">&quot;&quot;&quot;</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="sd">    grid: a tuple of  (x,y) coordinates</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="sd">    a: tensor to multiply</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="sd">    b: tensor to multiply</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="sd">    c: a empty tensor to hold results</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="sd">    &quot;&quot;&quot;</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>    <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">grid</span>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>    <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">c</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">and</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">c</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>        <span class="n">tmp</span> <span class="o">=</span> <span class="mf">0.</span>
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>            <span class="n">tmp</span> <span class="o">+=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">k</span><span class="p">]</span> <span class="o">*</span> <span class="n">b</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
+<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>        <span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span>
+</code></pre></div>
+<p>Below is the pattern to use the "coordinate calculation function"</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># results holder</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="n">res</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">ar</span><span class="p">,</span> <span class="n">bc</span><span class="p">)</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="c1"># 0,0 will be the upper left value to calculat</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="n">matmul</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">m1</span><span class="p">,</span> <span class="n">m2</span><span class="p">,</span> <span class="n">res</span><span class="p">)</span>
+</code></pre></div>
+<p>Which results in </p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="n">tensor</span><span class="p">([[</span><span class="o">-</span><span class="mf">10.94</span><span class="p">,</span>   <span class="mf">0.00</span><span class="p">,</span>   <span class="mf">0.00</span><span class="p">,</span>   <span class="mf">0.00</span><span class="p">,</span>   <span class="mf">0.00</span><span class="p">,</span>   <span class="mf">0.00</span><span class="p">,</span>   <span class="mf">0.00</span><span class="p">,</span>   <span class="mf">0.00</span><span class="p">,</span>   <span class="mf">0.00</span><span class="p">,</span>   <span class="mf">0.00</span><span class="p">],</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>        <span class="p">[</span>  <span class="mf">0.00</span><span class="p">,</span>   <span class="mf">0.00</span><span class="p">,</span>   <span class="mf">0.00</span><span class="p">,</span>   <span class="mf">0.00</span><span class="p">,</span>   <span class="mf">0.00</span><span class="p">,</span>   <span class="mf">0.00</span><span class="p">,</span>   <span class="mf">0.00</span><span class="p">,</span>   <span class="mf">0.00</span><span class="p">,</span>   <span class="mf">0.00</span><span class="p">,</span>   <span class="mf">0.00</span><span class="p">],</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>        <span class="p">[</span>  <span class="mf">0.00</span><span class="p">,</span>   <span class="mf">0.00</span><span class="p">,</span>   <span class="mf">0.00</span><span class="p">,</span>   <span class="mf">0.00</span><span class="p">,</span>   <span class="mf">0.00</span><span class="p">,</span>   <span class="mf">0.00</span><span class="p">,</span>   <span class="mf">0.00</span><span class="p">,</span>   <span class="mf">0.00</span><span class="p">,</span>   <span class="mf">0.00</span><span class="p">,</span>   <span class="mf">0.00</span><span class="p">],</span>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>        <span class="p">[</span>  <span class="mf">0.00</span><span class="p">,</span>   <span class="mf">0.00</span><span class="p">,</span>   <span class="mf">0.00</span><span class="p">,</span>   <span class="mf">0.00</span><span class="p">,</span>   <span class="mf">0.00</span><span class="p">,</span>   <span class="mf">0.00</span><span class="p">,</span>   <span class="mf">0.00</span><span class="p">,</span>   <span class="mf">0.00</span><span class="p">,</span>   <span class="mf">0.00</span><span class="p">,</span>   <span class="mf">0.00</span><span class="p">],</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>        <span class="p">[</span>  <span class="mf">0.00</span><span class="p">,</span>   <span class="mf">0.00</span><span class="p">,</span>   <span class="mf">0.00</span><span class="p">,</span>   <span class="mf">0.00</span><span class="p">,</span>   <span class="mf">0.00</span><span class="p">,</span>   <span class="mf">0.00</span><span class="p">,</span>   <span class="mf">0.00</span><span class="p">,</span>   <span class="mf">0.00</span><span class="p">,</span>   <span class="mf">0.00</span><span class="p">,</span>   <span class="mf">0.00</span><span class="p">]])</span>
+</code></pre></div>
+<p>So because this is localized (only writes to one section of the result), this can considered a<code>kernel</code>. The below is a general framework to loop through + apply a <code>kernel</code> or our function.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="k">def</span> <span class="nf">launch_kernel</span><span class="p">(</span><span class="n">kernel</span><span class="p">,</span> <span class="n">grid_x</span><span class="p">,</span> <span class="n">grid_y</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">grid_x</span><span class="p">):</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">grid_y</span><span class="p">):</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>            <span class="n">kernel</span><span class="p">((</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">),</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="n">res</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">ar</span><span class="p">,</span> <span class="n">bc</span><span class="p">)</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="n">launch_kernel</span><span class="p">(</span><span class="n">matmul</span><span class="p">,</span> <span class="n">ar</span><span class="p">,</span> <span class="n">bc</span><span class="p">,</span> <span class="n">m1</span><span class="p">,</span> <span class="n">m2</span><span class="p">,</span> <span class="n">res</span><span class="p">)</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="n">res</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="n">tensor</span><span class="p">([[</span><span class="o">-</span><span class="mf">10.94</span><span class="p">,</span>  <span class="o">-</span><span class="mf">0.68</span><span class="p">,</span>  <span class="o">-</span><span class="mf">7.00</span><span class="p">,</span>  <span class="o">-</span><span class="mf">4.01</span><span class="p">,</span>  <span class="o">-</span><span class="mf">2.09</span><span class="p">,</span>  <span class="o">-</span><span class="mf">3.36</span><span class="p">,</span>   <span class="mf">3.91</span><span class="p">,</span>  <span class="o">-</span><span class="mf">3.44</span><span class="p">,</span> <span class="o">-</span><span class="mf">11.47</span><span class="p">,</span>  <span class="o">-</span><span class="mf">2.12</span><span class="p">],</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>        <span class="p">[</span> <span class="mf">14.54</span><span class="p">,</span>   <span class="mf">6.00</span><span class="p">,</span>   <span class="mf">2.89</span><span class="p">,</span>  <span class="o">-</span><span class="mf">4.08</span><span class="p">,</span>   <span class="mf">6.59</span><span class="p">,</span> <span class="o">-</span><span class="mf">14.74</span><span class="p">,</span>  <span class="o">-</span><span class="mf">9.28</span><span class="p">,</span>   <span class="mf">2.16</span><span class="p">,</span> <span class="o">-</span><span class="mf">15.28</span><span class="p">,</span>  <span class="o">-</span><span class="mf">2.68</span><span class="p">],</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>        <span class="p">[</span>  <span class="mf">2.22</span><span class="p">,</span>  <span class="o">-</span><span class="mf">3.22</span><span class="p">,</span>  <span class="o">-</span><span class="mf">4.80</span><span class="p">,</span>  <span class="o">-</span><span class="mf">6.05</span><span class="p">,</span>  <span class="mf">14.17</span><span class="p">,</span>  <span class="o">-</span><span class="mf">8.98</span><span class="p">,</span>  <span class="o">-</span><span class="mf">4.79</span><span class="p">,</span>  <span class="o">-</span><span class="mf">5.44</span><span class="p">,</span> <span class="o">-</span><span class="mf">20.68</span><span class="p">,</span>  <span class="mf">13.57</span><span class="p">],</span>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>        <span class="p">[</span> <span class="o">-</span><span class="mf">6.71</span><span class="p">,</span>   <span class="mf">8.90</span><span class="p">,</span>  <span class="o">-</span><span class="mf">7.46</span><span class="p">,</span>  <span class="o">-</span><span class="mf">7.90</span><span class="p">,</span>   <span class="mf">2.70</span><span class="p">,</span>  <span class="o">-</span><span class="mf">4.73</span><span class="p">,</span> <span class="o">-</span><span class="mf">11.03</span><span class="p">,</span> <span class="o">-</span><span class="mf">12.98</span><span class="p">,</span>  <span class="o">-</span><span class="mf">6.44</span><span class="p">,</span>   <span class="mf">3.64</span><span class="p">],</span>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>        <span class="p">[</span> <span class="o">-</span><span class="mf">2.44</span><span class="p">,</span>  <span class="o">-</span><span class="mf">6.40</span><span class="p">,</span>  <span class="o">-</span><span class="mf">2.40</span><span class="p">,</span>  <span class="o">-</span><span class="mf">9.04</span><span class="p">,</span>  <span class="mf">11.18</span><span class="p">,</span>  <span class="o">-</span><span class="mf">5.77</span><span class="p">,</span>  <span class="o">-</span><span class="mf">8.92</span><span class="p">,</span>  <span class="o">-</span><span class="mf">3.79</span><span class="p">,</span>  <span class="o">-</span><span class="mf">8.98</span><span class="p">,</span>   <span class="mf">5.28</span><span class="p">]])</span>
+</code></pre></div>
+<p>But it is not fast, because the above is base python. How can this be written in <code>cuda</code> or gpu-language?</p>
+<p><code>numba</code> has tools to actual generate <code>cuda</code> code, but it comes with some alterations.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="kn">from</span> <span class="nn">numba</span> <span class="kn">import</span> <span class="n">cuda</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="nd">@cuda</span><span class="o">.</span><span class="n">jit</span>  <span class="c1"># compiles to GPU code</span>
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="k">def</span> <span class="nf">matmul</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">):</span>
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>    <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">cuda</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>    <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">c</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">and</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">c</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>        <span class="n">tmp</span> <span class="o">=</span> <span class="mf">0.</span>
+<a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span> <span class="n">tmp</span> <span class="o">+=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">k</span><span class="p">]</span> <span class="o">*</span> <span class="n">b</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
+<a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a>        <span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span>
+</code></pre></div>
+<p>So lets try it out! </p>
+<p>The important step will be copying the data over to the GPU (by default it is sitting on the CPU)</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># will be our results holder on the GPU</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="n">r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="n">m1g</span> <span class="o">=</span> <span class="n">cuda</span><span class="o">.</span><span class="n">to_device</span><span class="p">(</span><span class="n">x_train</span><span class="p">)</span>
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="n">m2g</span> <span class="o">=</span> <span class="n">cuda</span><span class="o">.</span><span class="n">to_device</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="n">rg</span> <span class="o">=</span> <span class="n">cuda</span><span class="o">.</span><span class="n">to_device</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>
+<a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a><span class="c1"># or </span>
+<a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a><span class="n">m1g</span><span class="p">,</span> <span class="n">m2g</span><span class="p">,</span> <span class="n">rg</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="n">cuda</span><span class="o">.</span><span class="n">to_device</span><span class="p">,</span> <span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">r</span><span class="p">))</span>
+</code></pre></div>
+In <code>cuda</code>, there is a concept called <code>TPB</code> (or threads per block)</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1"># turns grid into blocks</span>
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="n">TPB</span> <span class="o">=</span> <span class="mi">16</span>
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="n">rr</span><span class="p">,</span> <span class="n">rc</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">shape</span>
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="c1"># (3125, 1)</span>
+<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a><span class="n">blockspergrid</span> <span class="o">=</span> <span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">rr</span> <span class="o">/</span> <span class="n">TPB</span><span class="p">),</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">rc</span> <span class="o">/</span> <span class="n">TPB</span><span class="p">))</span>
+<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a>
+<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a><span class="c1"># this is our Cuda version of the function, along with additional params in []</span>
+<a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a><span class="n">matmul</span><span class="p">[</span><span class="n">blockspergrid</span><span class="p">,</span> <span class="p">(</span><span class="n">TPB</span><span class="p">,</span> <span class="n">TPB</span><span class="p">)](</span><span class="n">m1g</span><span class="p">,</span><span class="n">m2g</span><span class="p">,</span><span class="n">rg</span><span class="p">)</span>
+<a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a>
+<a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a><span class="c1"># copy the results back to the CPU</span>
+<a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a><span class="n">r</span> <span class="o">=</span> <span class="n">rg</span><span class="o">.</span><span class="n">copy_to_host</span><span class="p">()</span>
+<a id="__codelineno-17-13" name="__codelineno-17-13" href="#__codelineno-17-13"></a>
+<a id="__codelineno-17-14" name="__codelineno-17-14" href="#__codelineno-17-14"></a><span class="n">test_close</span><span class="p">(</span><span class="n">tr</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">)</span>
+</code></pre></div>
+<p>Doing a quick speed benchmark</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="o">%%</span><span class="n">timeit</span> <span class="o">-</span><span class="n">n</span> <span class="mi">10</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="n">matmul</span><span class="p">[</span><span class="n">blockspergrid</span><span class="p">,</span> <span class="p">(</span><span class="n">TPB</span><span class="p">,</span> <span class="n">TPB</span><span class="p">)](</span><span class="n">m1g</span><span class="p">,</span> <span class="n">m2g</span><span class="p">,</span> <span class="n">rg</span><span class="p">)</span>
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="n">r</span> <span class="o">=</span> <span class="n">rg</span><span class="o">.</span><span class="n">copy_to_host</span><span class="p">()</span>
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="o">&gt;&gt;&gt;</span> <span class="mf">3.61</span> <span class="n">ms</span> <span class="err">±</span> <span class="mi">708</span> <span class="n">µs</span> <span class="n">per</span> <span class="n">loop</span> <span class="p">(</span><span class="n">mean</span> <span class="err">±</span> <span class="n">std</span><span class="o">.</span> <span class="n">dev</span><span class="o">.</span> <span class="n">of</span> <span class="mi">7</span> <span class="n">runs</span><span class="p">,</span> <span class="mi">10</span> <span class="n">loops</span> <span class="n">each</span><span class="p">)</span>
+</code></pre></div>
+<p>Which is already much faster, lets try out the native torch methods for using the GPU</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="n">m1c</span> <span class="o">=</span> <span class="n">x_train</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span>
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="n">m2c</span> <span class="o">=</span> <span class="n">weights</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="c1"># do the multiplication then copy back to cpu</span>
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="n">r</span> <span class="o">=</span> <span class="p">(</span><span class="n">m1c</span> <span class="o">@</span> <span class="n">m2c</span><span class="p">)</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="o">%</span><span class="n">timeit</span> <span class="o">-</span><span class="n">n</span> <span class="mi">10</span> <span class="n">r</span><span class="o">=</span><span class="p">(</span><span class="n">m1c</span><span class="nd">@m2c</span><span class="p">)</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span>
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="o">&gt;&gt;</span> <span class="mi">458</span> <span class="n">µs</span> <span class="err">±</span> <span class="mf">93.1</span> <span class="n">µs</span> <span class="n">per</span> <span class="n">loop</span> <span class="p">(</span><span class="n">mean</span> <span class="err">±</span> <span class="n">std</span><span class="o">.</span> <span class="n">dev</span><span class="o">.</span> <span class="n">of</span> <span class="mi">7</span> <span class="n">runs</span><span class="p">,</span> <span class="mi">10</span> <span class="n">loops</span> <span class="n">each</span><span class="p">)</span>
+</code></pre></div>
+<p><code>0.5ms</code> compared to the previous <code>500ms</code> is a HUGE improvement.</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href="../A1-intro/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Intro" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Intro
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../A3-mean-shift/" class="md-footer__link md-footer__link--next" aria-label="Next: Implement Clustering with Matrices" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Implement Clustering with Matrices
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.sections"], "search": "../../assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d6c3db9e.min.js"></script>
+      
+    
+  </body>
+</html>
