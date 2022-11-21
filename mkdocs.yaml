@@ -39,3 +39,5 @@ nav:
   - Matmul: lesson-12/A2-matmul.md
   - Implement Clustering with Matrices: lesson-12/A3-mean-shift.md
   - Intro to calculus: lesson-12/A4-calculus.md
+- Lesson 13:
+  - Intro: lesson-13/A1-intro.md
