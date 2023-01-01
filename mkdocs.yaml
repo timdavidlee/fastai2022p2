@@ -41,3 +41,5 @@ nav:
   - Intro to calculus: lesson-12/A4-calculus.md
 - Lesson 13:
   - Intro: lesson-13/A1-intro.md
+  - Layers and Modules: lesson-13/A2-refactor.md
+  - First training loop: lesson-13/A3-mini-batch-training.md

@@ -6,3 +6,7 @@ Lecture notes + setup stuff for 2022's fastai part 2 course, stable diffusion. W
 For best viewing of the lecture notes, please visit the github hosted page for this repo here:
 
 [https://timdavidlee.github.io/fastai2022p2/](https://timdavidlee.github.io/fastai2022p2/)
+
+Image hosting is powered by:
+
+[https://imgbb.com/](https://imgbb.com/)
