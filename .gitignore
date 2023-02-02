@@ -3,6 +3,9 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# notebook checkpoints
+*.ipynb_checkpoints
+
 # C extensions
 *.so
 
