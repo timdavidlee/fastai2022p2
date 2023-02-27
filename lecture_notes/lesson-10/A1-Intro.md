@@ -42,5 +42,8 @@ A lot of interest + work still being focused on this work.
 
 ### Overview of "Progressive Distillation for Fast Sampling of Diffusion Models"
 
-Hand-written Notes
+<img src="../imgs/22.jpg" border="2">
+<img src="../imgs/23.jpg" border="2">
+<img src="../imgs/24.jpg" border="2">
+<img src="../imgs/25.jpg" border="2">
 
