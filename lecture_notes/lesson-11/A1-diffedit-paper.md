@@ -10,7 +10,7 @@
 - can also read the paper
 - annotate, edit + organize to papers
 
-<img src="https://i.ibb.co/wJDH5sL/Screenshot-2022-10-30-at-4-55-08-PM.jpg" alt="Screenshot-2022-10-30-at-4-55-08-PM" border="3">
+<img src="../imgs/15.jpg" alt="Screenshot-2022-10-30-at-4-55-08-PM" border="3">
 
 ### Observations
 
@@ -28,13 +28,13 @@ Previous techniques usually require a "mask" to be manually supplied, but this p
 
 Talks about what its trying to do, tries to describe the problem + provide an overview to current methods.
 
-<img src="https://i.ibb.co/59VKCwx/Screenshot-2022-10-30-at-5-02-46-PM.jpg" alt="Screenshot-2022-10-30-at-5-02-46-PM" border="0">
+<img src="../imgs/16.jpg" alt="Screenshot-2022-10-30-at-5-02-46-PM" border="0">
 
 Looking at **related work** is a good place to look into current papers.
 
 ### Background
 
-<img src="https://i.ibb.co/PcZNVWy/Screenshot-2022-10-30-at-5-06-23-PM.jpg" alt="Screenshot-2022-10-30-at-5-06-23-PM" border="0">
+<img src="../imgs/17.jpg" alt="Screenshot-2022-10-30-at-5-06-23-PM" border="0">
 
 Scary time. A lot of equations. Background is often written last and intended to look smart to the reviewers.
 
@@ -67,7 +67,7 @@ What does the capital E mean?
 
 ### Looking at the "picture" algorithm diagram
 
-<img src="https://i.ibb.co/brD5y3D/Screenshot-2022-10-30-at-5-28-18-PM.jpg" alt="Screenshot-2022-10-30-at-5-28-18-PM" border="0">
+<img src="../imgs/18.jpg" alt="Screenshot-2022-10-30-at-5-28-18-PM" border="0">
 
 With walking through the talk step by step, the big idea is: 
 

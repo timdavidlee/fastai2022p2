@@ -42,7 +42,7 @@ imgs = x_trn_tensor.reshape((-1, 28, 28))
 
 ## 1. A preview of setting up linear weight multiplication
 
-<img src="https://i.ibb.co/w4yWq73/Screenshot-2022-10-30-at-6-51-13-PM.jpg" alt="Screenshot-2022-10-30-at-6-51-13-PM" border="2">
+<img src="../imgs/19.jpg" alt="Screenshot-2022-10-30-at-6-51-13-PM" border="2">
 
 ```python
 torch.manual_seed(1)

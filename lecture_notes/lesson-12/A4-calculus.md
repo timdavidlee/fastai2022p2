@@ -1,4 +1,3 @@
 # Calculus
 
--- Handwritten notes
-
+<img src="../imgs/21.jpg" border="2">

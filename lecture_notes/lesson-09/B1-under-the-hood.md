@@ -11,7 +11,7 @@ For a conceptual example, let's consider the following:
 - if the image is very noisy, then the `P(x) = 0.02` would be very low
 - **Premise**: if a function like this exists, this `f(x)` could be used to generate images
 
-<img src="https://i.ibb.co/VTLszYH/Screen-Shot-2022-10-23-at-9-05-31-PM.jpg" alt="Screen-Shot-2022-10-23-at-9-05-31-PM" border="2">
+<img src="../imgs/2.jpg" alt="Screen-Shot-2022-10-23-at-9-05-31-PM" border="2">
 
 
 #### What happens if the image is "tweaked"?
@@ -20,7 +20,7 @@ For a conceptual example, let's consider the following:
 - This will in turn also increase the `P(X)` that the image is of a hand-written image
 - considering pixel by pixel tweaks and changes, this is close to calculating the gradient of the probability over the pixels
 
-<img src="https://i.ibb.co/BrQj3sd/Screen-Shot-2022-10-23-at-9-05-42-PM.jpg" alt="Screen-Shot-2022-10-23-at-9-05-42-PM" border="2">
+<img src="../imgs/3.jpg" alt="Screen-Shot-2022-10-23-at-9-05-42-PM" border="2">
 
 #### If we had the gradient, what would we do with it?
 
@@ -32,7 +32,7 @@ For a conceptual example, let's consider the following:
 3. image will be updated (ideally closer to a real number)
 4. the probability is re-evaluated, would probably go up by a small bit
 
-<img src="https://i.ibb.co/HgTZgHF/Screen-Shot-2022-10-23-at-9-05-50-PM.jpg" alt="Screen-Shot-2022-10-23-at-9-05-50-PM" border="2">
+<img src="../imgs/4.jpg" alt="Screen-Shot-2022-10-23-at-9-05-50-PM" border="2">
 
 
 #### How to calculate the gradient?
@@ -42,7 +42,7 @@ For a conceptual example, let's consider the following:
 - it would be much better if there existed a `f.backward()` function that would provide us the `grad_X3`
 - But first, what is our `f` going to be? Hint: a `neural-network`
 
-<img src="https://i.ibb.co/X3vX2fj/Screen-Shot-2022-10-23-at-9-05-58-PM.jpg" alt="Screen-Shot-2022-10-23-at-9-05-58-PM" border="2">
+<img src="../imgs/5.jpg" alt="Screen-Shot-2022-10-23-at-9-05-58-PM" border="2">
 
 #### High-level problem definition
 
@@ -53,7 +53,7 @@ For a conceptual example, let's consider the following:
     - outputs
     - loss function
     
-<img src="https://i.ibb.co/9svQZb0/Screen-Shot-2022-10-23-at-9-06-06-PM.jpg" alt="Screen-Shot-2022-10-23-at-9-06-06-PM" border="2">
+<img src="../imgs/6.jpg" alt="Screen-Shot-2022-10-23-at-9-06-06-PM" border="2">
 
 #### A forward-cycle
 
@@ -63,11 +63,11 @@ For a conceptual example, let's consider the following:
 - calculate the gradient from the `MSELoss.backward()`
 - subtract gradient from `IMG - grad` and repeat!
 
-<img src="https://i.ibb.co/TtRpnWg/Screen-Shot-2022-10-23-at-9-06-13-PM.jpg" alt="Screen-Shot-2022-10-23-at-9-06-13-PM" border="2">
+<img src="../imgs/7.jpg" alt="Screen-Shot-2022-10-23-at-9-06-13-PM" border="2">
 
 Sample cycle, a noisy image coes in, the `NN` predicts what it thinks is noise, we subtract it, and the image gets closer to looking like a `4`
 
-<img src="https://i.ibb.co/v1hsZW4/Screen-Shot-2022-10-23-at-9-06-18-PM.jpg" alt="Screen-Shot-2022-10-23-at-9-06-18-PM" border="2">
+<img src="../imgs/8.jpg" alt="Screen-Shot-2022-10-23-at-9-06-18-PM" border="2">
 
 ### So... how to add noise?
 
@@ -77,7 +77,7 @@ Sample cycle, a noisy image coes in, the `NN` predicts what it thinks is noise, 
 - HD image `(1920 x 1080 x 3) = 6MB`!, and there are plenty of images much smaller `100KB`
 - Hint: think about JPEGs ... image compression!
 
-<img src="https://i.ibb.co/6YsQTVP/Screen-Shot-2022-10-23-at-9-06-32-PM.jpg" alt="Screen-Shot-2022-10-23-at-9-06-32-PM" border="2">
+<img src="../imgs/9.jpg" alt="Screen-Shot-2022-10-23-at-9-06-32-PM" border="2">
 
 #### Introducing autoencoders
 
@@ -113,7 +113,7 @@ Anything that Shrinks the inputs, or the first half is called the `encoder`. Any
 
 Since the loss function is basically "is this the same image", `MSE` will be used again to calculate the pixel vs pixel difference. This is trained over a large corpus of images
 
-<img src="https://i.ibb.co/SVtZBVv/Screen-Shot-2022-10-23-at-9-06-39-PM.jpg" alt="Screen-Shot-2022-10-23-at-9-06-39-PM" border="2">
+<img src="../imgs/10.jpg" alt="Screen-Shot-2022-10-23-at-9-06-39-PM" border="2">
 
 #### Assembling the compressor + expander with the NN
 
@@ -125,7 +125,7 @@ Since the loss function is basically "is this the same image", `MSE` will be use
 
 Caveat: this `auto-encoder` approach is optional if you have infinite compute, but it is very resource hungry
 
-<img src="https://i.ibb.co/TM46mN3/Screen-Shot-2022-10-23-at-9-06-45-PM.jpg" alt="Screen-Shot-2022-10-23-at-9-06-45-PM" border="2">
+<img src="../imgs/11.jpg" alt="Screen-Shot-2022-10-23-at-9-06-45-PM" border="2">
 
 ## What about captions?
 
@@ -138,7 +138,7 @@ The main issue with this is there are too many phrases in the english language t
 - `astronaut on a horse` -> a vector
 - `football in the style of monet` -> different vector
 
-<img src="https://i.ibb.co/7QkfwfT/Screen-Shot-2022-10-23-at-9-06-56-PM.jpg" alt="Screen-Shot-2022-10-23-at-9-06-56-PM" border="2">
+<img src="../imgs/12.jpg" alt="Screen-Shot-2022-10-23-at-9-06-56-PM" border="2">
 
 ### Captions to vectors: an example
 
@@ -166,9 +166,9 @@ Now that images + phrases have be associated, we can make a `siamese-net` like a
 
 - and through this both the `text_encoder` and the `image_encoder` will be trained
 
-<img src="https://i.ibb.co/NTBfPvn/Screen-Shot-2022-10-23-at-9-07-06-PM.jpg" alt="Screen-Shot-2022-10-23-at-9-07-06-PM" border="2">
+<img src="../imgs/13.jpg" alt="Screen-Shot-2022-10-23-at-9-07-06-PM" border="2">
 
 How to pick your randomness
 
-<img src="https://i.ibb.co/1TM5x9P/Screen-Shot-2022-10-23-at-9-07-16-PM.jpg" alt="Screen-Shot-2022-10-23-at-9-07-16-PM" border="2">
+<img src="../imgs/14.jpg" alt="Screen-Shot-2022-10-23-at-9-07-16-PM" border="2">
 

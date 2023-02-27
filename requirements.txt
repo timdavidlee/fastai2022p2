@@ -1,0 +1,6 @@
+torch
+pandas
+transformers
+numpy
+mkdocs
+mkdocs-material
